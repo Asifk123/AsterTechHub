@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aster Tech Hub | Command Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .neon-glow-primary:hover {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+        }
+        .pulse-tracer {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d9b9ff, transparent);
+            width: 100%;
+        }
+        body {
+            background-color: #0A0A0F;
+            color: #e4e1e9;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-space {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline-variant": "#3c494e",
+                        "on-primary-container": "#00586b",
+                        "on-secondary": "#460085",
+                        "secondary": "#d9b9ff",
+                        "on-secondary-fixed": "#2a0054",
+                        "surface-dim": "#131318",
+                        "surface-container-highest": "#35343a",
+                        "surface-container-high": "#2a292f",
+                        "secondary-fixed-dim": "#d9b9ff",
+                        "surface-container-lowest": "#0e0e13",
+                        "outline": "#859398",
+                        "surface-container": "#1f1f25",
+                        "primary-container": "#00d4ff",
+                        "primary-fixed": "#b4ebff",
+                        "on-tertiary-container": "#4f5051",
+                        "surface-tint": "#3cd7ff",
+                        "secondary-fixed": "#eedbff",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "secondary-container": "#8c0eff",
+                        "inverse-primary": "#00677e",
+                        "tertiary-fixed": "#e2e2e2",
+                        "background": "#131318",
+                        "tertiary": "#dedfdf",
+                        "tertiary-container": "#c2c3c3",
+                        "primary-fixed-dim": "#3cd7ff",
+                        "on-primary": "#003642",
+                        "inverse-on-surface": "#303036",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-error": "#690005",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#1b1b20",
+                        "on-secondary-container": "#efdeff",
+                        "surface-bright": "#39383e",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-primary-fixed": "#001f27",
+                        "surface": "#131318",
+                        "on-surface": "#e4e1e9",
+                        "primary": "#a8e8ff",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#2f3131",
+                        "on-surface-variant": "#bbc9cf",
+                        "on-secondary-fixed-variant": "#6400ba",
+                        "surface-variant": "#35343a",
+                        "on-background": "#e4e1e9",
+                        "inverse-surface": "#e4e1e9"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-[#0A0A0F] selection:bg-primary/30">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#0A0A0F]/80 backdrop-blur-xl border-b border-[#3C494E]/15 flex justify-between items-center px-6 h-16 shadow-[0_0_20px_rgba(0,212,255,0.1)]">
+<div class="flex items-center gap-8">
+<div class="text-xl font-bold tracking-tighter text-[#00D4FF] font-['Space_Grotesk']">
+                Aster Tech Hub
+            </div>
+<div class="hidden md:flex gap-6">
+<a class="text-[#00D4FF] font-bold font-['Space_Grotesk'] tracking-wider text-sm uppercase" href="#">Dashboard</a>
+<a class="text-[#BBC9CF] hover:text-[#A8E8FF] transition-colors font-['Space_Grotesk'] tracking-wider text-sm uppercase" href="#">Network</a>
+<a class="text-[#BBC9CF] hover:text-[#A8E8FF] transition-colors font-['Space_Grotesk'] tracking-wider text-sm uppercase" href="#">Assets</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#BBC9CF] text-sm">search</span>
+<input class="bg-surface-container-highest border-none rounded-lg pl-10 pr-4 py-1.5 text-xs font-space tracking-widest focus:ring-1 focus:ring-primary/40 w-64 text-on-surface" placeholder="SECURE SCAN..." type="text"/>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-[#BBC9CF] hover:text-[#00D4FF] transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-[#BBC9CF] hover:text-[#00D4FF] transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 border-r border-[#3C494E]/15 bg-[#131318] flex flex-col pt-20 pb-6 px-4 z-40 hidden lg:flex">
+<div class="mb-8 px-2">
+<p class="text-[#00D4FF] font-black font-['Space_Grotesk'] uppercase tracking-[0.2em] text-[10px]">Command Center</p>
+<h2 class="text-on-surface-variant font-space text-xs tracking-widest mt-1">OPERATOR: ALPHA-7</h2>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#00D4FF] border-r-2 border-[#00D4FF] bg-gradient-to-r from-[#00D4FF]/10 to-transparent transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="grid_view">grid_view</span>
+<span class="font-['Space_Grotesk'] uppercase tracking-widest text-xs">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#BBC9CF] hover:bg-[#1B1B20] hover:text-[#00D4FF] transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="receipt_long">receipt_long</span>
+<span class="font-['Space_Grotesk'] uppercase tracking-widest text-xs">Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#BBC9CF] hover:bg-[#1B1B20] hover:text-[#00D4FF] transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="contact_support">contact_support</span>
+<span class="font-['Space_Grotesk'] uppercase tracking-widest text-xs">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#BBC9CF] hover:bg-[#1B1B20] hover:text-[#00D4FF] transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
+<span class="font-['Space_Grotesk'] uppercase tracking-widest text-xs">Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-[#3C494E]/15 pt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-[#BBC9CF] hover:text-error transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="logout">logout</span>
+<span class="font-['Space_Grotesk'] uppercase tracking-widest text-xs">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:pl-64 pt-20 min-h-screen">
+<div class="p-8 max-w-7xl mx-auto space-y-10">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="text-4xl font-extrabold font-space tracking-tighter text-on-surface">CORE_DASHBOARD</h1>
+<p class="text-on-surface-variant mt-2 max-w-md">System oversight for all active development cycles and financial nodes within Aster Tech Hub.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-low border border-outline-variant/20 px-4 py-2 rounded-lg text-primary font-space text-xs tracking-widest uppercase hover:bg-surface-container-high transition-all">
+                        Generate Report
+                    </button>
+<button class="bg-gradient-to-br from-primary to-primary-container px-4 py-2 rounded-lg text-on-primary font-space text-xs tracking-widest font-bold uppercase shadow-lg shadow-primary/10 hover:scale-105 transition-all">
+                        New Project +
+                    </button>
+</div>
+</div>
+<!-- Command Center Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Stat Card 1 -->
+<div class="surface-container-low border-l-2 border-primary p-6 rounded-lg glass-panel neon-glow-primary transition-all group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="rocket_launch">rocket_launch</span>
+<span class="text-[10px] font-space text-primary/40 tracking-[0.3em]">ACTIVE_OPS</span>
+</div>
+<div class="text-3xl font-bold font-space text-on-surface">12</div>
+<div class="text-xs text-on-surface-variant mt-1 uppercase tracking-widest">Active Projects</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="surface-container-low border-l-2 border-secondary p-6 rounded-lg glass-panel hover:shadow-[0_0_20px_rgba(217,185,255,0.15)] transition-all group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="check_circle">check_circle</span>
+<span class="text-[10px] font-space text-secondary/40 tracking-[0.3em]">MILESTONES</span>
+</div>
+<div class="text-3xl font-bold font-space text-on-surface">148</div>
+<div class="text-xs text-on-surface-variant mt-1 uppercase tracking-widest">Completed</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="surface-container-low border-l-2 border-primary-container p-6 rounded-lg glass-panel hover:shadow-[0_0_20px_rgba(0,212,255,0.15)] transition-all group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary-container text-3xl" data-icon="payments">payments</span>
+<span class="text-[10px] font-space text-primary-container/40 tracking-[0.3em]">FINANCE_NODE</span>
+</div>
+<div class="text-3xl font-bold font-space text-on-surface">04</div>
+<div class="text-xs text-on-surface-variant mt-1 uppercase tracking-widest">Pending Invoices</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="surface-container-low border-l-2 border-error p-6 rounded-lg glass-panel hover:shadow-[0_0_20px_rgba(255,180,171,0.15)] transition-all group">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-error text-3xl" data-icon="confirmation_number">confirmation_number</span>
+<span class="text-[10px] font-space text-error/40 tracking-[0.3em]">SUPPORT_TICKETS</span>
+</div>
+<div class="text-3xl font-bold font-space text-on-surface">07</div>
+<div class="text-xs text-on-surface-variant mt-1 uppercase tracking-widest">Open Tickets</div>
+</div>
+</div>
+<!-- Main Workspace Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<!-- Center Section: Timeline & Kanban -->
+<div class="xl:col-span-2 space-y-10">
+<!-- Project Timeline (Gantt Visualization) -->
+<section class="bg-surface-container-low rounded-xl p-8 border border-outline-variant/10">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-space text-sm tracking-[0.2em] text-primary uppercase">Strategic_Timeline</h3>
+<div class="flex items-center gap-4 text-[10px] font-space text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span> CURRENT</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> PROJECTED</span>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Timeline Row 1 -->
+<div class="grid grid-cols-4 gap-4 relative">
+<div class="absolute inset-0 flex items-center px-2 pointer-events-none opacity-20">
+<div class="w-full h-[1px] bg-outline"></div>
+</div>
+<div class="col-span-1 bg-primary/20 border border-primary/40 rounded py-2 px-3 relative z-10">
+<p class="text-[10px] font-bold text-primary font-space">STRATEGY</p>
+</div>
+<div class="col-span-2 bg-primary/20 border border-primary/40 rounded py-2 px-3 relative z-10">
+<p class="text-[10px] font-bold text-primary font-space">DESIGN &amp; DEV</p>
+</div>
+<div class="col-span-1 border border-outline-variant/40 rounded py-2 px-3 relative z-10 bg-surface-container-high/50">
+<p class="text-[10px] font-bold text-on-surface-variant font-space">DEPLOY</p>
+</div>
+</div>
+<!-- Timeline Row 2 -->
+<div class="grid grid-cols-4 gap-4 relative">
+<div class="absolute inset-0 flex items-center px-2 pointer-events-none opacity-20">
+<div class="w-full h-[1px] bg-outline"></div>
+</div>
+<div class="col-span-2 bg-secondary/20 border border-secondary/40 rounded py-2 px-3 relative z-10">
+<p class="text-[10px] font-bold text-secondary font-space">PHASE_A: NEURAL_CORE</p>
+</div>
+<div class="col-span-1 bg-secondary/20 border border-secondary/40 rounded py-2 px-3 relative z-10">
+<p class="text-[10px] font-bold text-secondary font-space">BETA_RELEASE</p>
+</div>
+<div class="col-span-1 border border-outline-variant/40 rounded py-2 px-3 relative z-10 bg-surface-container-high/50"></div>
+</div>
+</div>
+</section>
+<!-- Project Kanban Board -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Column 1: Queue -->
+<div class="space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+<h4 class="font-space text-[10px] tracking-widest text-on-surface-variant uppercase">Project Queue</h4>
+</div>
+<!-- Card -->
+<div class="glass-panel p-4 rounded-lg border border-outline-variant/10 space-y-3 hover:translate-y-[-4px] transition-transform">
+<div class="flex justify-between items-start">
+<h5 class="text-xs font-bold text-on-surface">Data Weaver API</h5>
+<span class="text-[9px] text-primary bg-primary/10 px-1.5 py-0.5 rounded border border-primary/20 font-space">LOW_PRIO</span>
+</div>
+<p class="text-[11px] text-on-surface-variant leading-relaxed">Integration of external data streams for the main analytic dashboard.</p>
+<div class="flex justify-between items-center pt-2">
+<div class="flex -space-x-2">
+<img alt="Team member" class="w-6 h-6 rounded-full border border-background" data-alt="portrait of a young professional man in a tech office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmvhheLFrdAModZ_KfZlhNOy7SmnMbMaVrQhEB8vg4uE4QjO49UpL4HbtRLpXgcMlhJ8SpZbwmFc8fLqVB5xtHFXPJL5wd6AT_HADtSnKRwwUFwdVM5AoecA0qQKIoiCjUdDfSVEv-CJzEnO3_9DRQoFMzOb_G8-dsvLWBA5CvQ6W6fLli8OocLG3_6Hx--W6HicUGfWDWvCMQctqCa0DEGPqaMYoi0Awt4isyRAkzsyvssvq7kRKUxjJCepEwCZNcblE_08iL0I8"/>
+<img alt="Team member" class="w-6 h-6 rounded-full border border-background" data-alt="professional woman in modern studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0p9C4WrDpSivpBhfnFLejFV0mCUFgqFSTNJfLuJJ0UjpwQBxxiIGtcJwmAA9faaU6spNRSIjAkhbqzntg0rD3hr4t5LHYmQ35PHZVbtJHV-db6dQApul9eF8Zd_RlHqadtoYud2zKxjT1sy4WtvyxzLOCtJCfZdMaL3gSADDLnXCbaLBx6mpJbrYGtlMBbXaFKIXOtcmh6FI2vmi0SDwKfMR5zUmTUogpPpUnzEzW_REitGqQ1-7NrRPw0AOsbCEceQmNQlmuxZ0"/>
+</div>
+<span class="material-symbols-outlined text-sm text-on-surface-variant" data-icon="more_horiz">more_horiz</span>
+</div>
+</div>
+</div>
+<!-- Column 2: Active -->
+<div class="space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<h4 class="font-space text-[10px] tracking-widest text-primary uppercase">Active Processing</h4>
+</div>
+<!-- Card -->
+<div class="glass-panel p-4 rounded-lg border border-primary/20 space-y-3 hover:translate-y-[-4px] transition-transform relative overflow-hidden">
+<div class="absolute top-0 left-0 h-[2px] bg-primary w-full"></div>
+<div class="flex justify-between items-start">
+<h5 class="text-xs font-bold text-on-surface">Aster_UI_v2</h5>
+<span class="text-[9px] text-error bg-error/10 px-1.5 py-0.5 rounded border border-error/20 font-space">CRITICAL</span>
+</div>
+<p class="text-[11px] text-on-surface-variant leading-relaxed">System-wide redesign of the user portal for better UX flow.</p>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden mt-2">
+<div class="bg-primary h-full w-2/3"></div>
+</div>
+<div class="flex justify-between items-center pt-1">
+<span class="text-[9px] font-space text-primary">68% COMPLETE</span>
+<div class="flex -space-x-2">
+<img alt="Team member" class="w-6 h-6 rounded-full border border-background" data-alt="headshot of male developer in soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6syGa38AYdtxLoHoHgseGzLrc3Wjefmnn-TldeDZGMyMLasYB3kI9juZIv_tkte2WOtRB7IUp2rhmbvIuAJQTEE8dhQbpt-t3XLGtt7OJ_lwk322Kqlhb3z96urEhnuM_6WKlld0gcBnZLogLZNtvkKPBJjsLRnDAZ4o0QdNpKNYK4F-F6G3AE7Bq4cUwWvgilu54OaIO-KssVB_eRx333hgZjxG46FmuOebL8_kM_cSqScJTdXGiGPogpkVNYWKL_CPqvI9C5zw"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 3: Review -->
+<div class="space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<h4 class="font-space text-[10px] tracking-widest text-secondary uppercase">Ready for Review</h4>
+</div>
+<!-- Card -->
+<div class="glass-panel p-4 rounded-lg border border-outline-variant/10 space-y-3 hover:translate-y-[-4px] transition-transform">
+<div class="flex justify-between items-start">
+<h5 class="text-xs font-bold text-on-surface">Payment_Gateway</h5>
+<span class="text-[9px] text-secondary bg-secondary/10 px-1.5 py-0.5 rounded border border-secondary/20 font-space">REVIEW</span>
+</div>
+<p class="text-[11px] text-on-surface-variant leading-relaxed">Stripe integration and automated invoice generation module.</p>
+<div class="flex justify-between items-center pt-2">
+<div class="flex items-center gap-1 text-[9px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[10px]" data-icon="attach_file">attach_file</span> 3 files
+                                    </div>
+<button class="text-[10px] font-bold text-secondary font-space uppercase">APPROVE_LOG</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Section: Neural Feed -->
+<div class="space-y-6">
+<div class="bg-surface-container-low rounded-xl border border-outline-variant/10 h-full flex flex-col">
+<div class="p-6 border-b border-[#3C494E]/15">
+<h3 class="font-space text-sm tracking-[0.2em] text-on-surface uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="sensors">sensors</span>
+                                Neural Feed
+                            </h3>
+</div>
+<div class="flex-1 overflow-y-auto max-h-[600px] p-6 space-y-6">
+<!-- Update Item -->
+<div class="flex gap-4 group">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-primary mt-1.5"></div>
+<div class="w-[1px] h-full bg-outline-variant/30 mt-1"></div>
+</div>
+<div class="pb-6">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-space text-primary">JUST NOW</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">System Alert</span>
+</div>
+<p class="text-xs font-medium text-on-surface group-hover:text-primary transition-colors">Design Mockup Uploaded</p>
+<p class="text-[11px] text-on-surface-variant mt-1 leading-relaxed">Visual architect ALPHA-1 uploaded v2.4 sketches for Project_Atlas.</p>
+</div>
+</div>
+<!-- Update Item -->
+<div class="flex gap-4 group">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-secondary mt-1.5"></div>
+<div class="w-[1px] h-full bg-outline-variant/30 mt-1"></div>
+</div>
+<div class="pb-6">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-space text-secondary">2H AGO</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Code Pulse</span>
+</div>
+<p class="text-xs font-medium text-on-surface group-hover:text-secondary transition-colors">API Integration Complete</p>
+<p class="text-[11px] text-on-surface-variant mt-1 leading-relaxed">Security handshake established between Auth_Node and Master_DB.</p>
+</div>
+</div>
+<!-- Update Item -->
+<div class="flex gap-4 group">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-on-surface-variant mt-1.5"></div>
+<div class="w-[1px] h-full bg-outline-variant/30 mt-1"></div>
+</div>
+<div class="pb-6">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-space text-on-surface-variant">5H AGO</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Scheduler</span>
+</div>
+<p class="text-xs font-medium text-on-surface">Sprint 3 Review Scheduled</p>
+<p class="text-[11px] text-on-surface-variant mt-1 leading-relaxed">Automated brief sent to all project stakeholders for T-Minus 24h.</p>
+</div>
+</div>
+<!-- Update Item -->
+<div class="flex gap-4 group">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-primary mt-1.5"></div>
+<div class="w-[1px] h-full bg-outline-variant/30 mt-1"></div>
+</div>
+<div class="">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-[10px] font-space text-primary">YESTERDAY</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Deploy Log</span>
+</div>
+<p class="text-xs font-medium text-on-surface group-hover:text-primary transition-colors">Security Patch v0.9.1</p>
+<p class="text-[11px] text-on-surface-variant mt-1 leading-relaxed">Hardening of peripheral endpoints successful across all clusters.</p>
+</div>
+</div>
+</div>
+<div class="p-6 border-t border-[#3C494E]/15 bg-surface-container-high/30">
+<button class="w-full text-center text-[10px] font-space tracking-widest text-on-surface-variant hover:text-primary uppercase">Sync Neural History</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Navigation (Bottom) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full bg-[#0A0A0F]/90 backdrop-blur-xl border-t border-[#3C494E]/15 px-6 py-3 flex justify-between items-center z-50">
+<button class="flex flex-col items-center text-[#00D4FF]">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="text-[9px] font-space uppercase">Projects</span>
+</button>
+<button class="flex flex-col items-center text-[#BBC9CF]">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="text-[9px] font-space uppercase">Invoices</span>
+</button>
+<button class="flex flex-col items-center text-[#BBC9CF]">
+<span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+<span class="text-[9px] font-space uppercase">Feed</span>
+</button>
+<button class="flex flex-col items-center text-[#BBC9CF]">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[9px] font-space uppercase">Settings</span>
+</button>
+</div>
+</body></html>

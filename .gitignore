@@ -1,0 +1,29 @@
+# Dependency directories
+node_modules/
+**/node_modules/
+
+# Next.js build output
+.next/
+**/.next/
+tsconfig.tsbuildinfo
+next-env.d.ts
+
+# Env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+**/.env*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Scratch and log files
+scratch/
+**/scratch/
+*.log
+**/*.log
+.gemini/
+.system_generated/

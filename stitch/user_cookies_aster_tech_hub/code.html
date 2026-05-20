@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Cookies &amp; Preferences | Aster Tech Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#d9b9ff",
+              "on-secondary-fixed-variant": "#6400ba",
+              "surface-tint": "#3cd7ff",
+              "surface": "#131318",
+              "on-primary-fixed": "#001f27",
+              "on-background": "#e4e1e9",
+              "background": "#131318",
+              "outline-variant": "#3c494e",
+              "on-tertiary-container": "#4f5051",
+              "surface-container": "#1f1f25",
+              "surface-dim": "#131318",
+              "on-primary": "#003642",
+              "tertiary": "#dedfdf",
+              "surface-container-highest": "#35343a",
+              "on-primary-container": "#00586b",
+              "surface-bright": "#39383e",
+              "on-error-container": "#ffdad6",
+              "on-error": "#690005",
+              "surface-variant": "#35343a",
+              "on-primary-fixed-variant": "#004e5f",
+              "secondary-fixed": "#eedbff",
+              "on-secondary": "#460085",
+              "secondary": "#d9b9ff",
+              "primary-fixed-dim": "#3cd7ff",
+              "on-surface-variant": "#bbc9cf",
+              "tertiary-fixed": "#e2e2e2",
+              "on-secondary-fixed": "#2a0054",
+              "surface-container-lowest": "#0e0e13",
+              "on-tertiary-fixed-variant": "#454747",
+              "on-tertiary-fixed": "#1a1c1c",
+              "tertiary-fixed-dim": "#c6c6c7",
+              "outline": "#859398",
+              "primary-fixed": "#b4ebff",
+              "primary": "#a8e8ff",
+              "inverse-surface": "#e4e1e9",
+              "on-surface": "#e4e1e9",
+              "tertiary-container": "#c2c3c3",
+              "inverse-on-surface": "#303036",
+              "error-container": "#93000a",
+              "secondary-container": "#8c0eff",
+              "on-tertiary": "#2f3131",
+              "error": "#ffb4ab",
+              "surface-container-low": "#1b1b20",
+              "surface-container-high": "#2a292f",
+              "inverse-primary": "#00677e",
+              "primary-container": "#00d4ff",
+              "on-secondary-container": "#efdeff"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+        .pulse-tracer {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d9b9ff, transparent);
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary/30">
+<nav class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(0,212,255,0.15)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<img class="h-8 w-8 object-contain" data-alt="Futuristic geometric tech logo with neon cyan and blue gradients on a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaCrme2b1JUVsAmFAwRk9O8YOoYFrGCWg_eP2J6aWmHN1g-j8-ao_4FvxtlU5NGbGK1NdGiEYi_iU1UGB7or34iE3oKN5edUMUqe62fxB3dTLoYDTgXw_UQEgSahrJ79OKhCiCJEYZXg5mRdzcWxSSbOjXT2041FS7meIwWkdW9YLc5EGOq7GepcD1xFeohR4fEdhW4MTLq3T2PRTAvqFF_GlfM1EW5rvSZyEKJ73R_hxkWwtwAmAdc2JuZEvj_PY4Sdptk3Inprw"/>
+<span class="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-headline">Aster Tech Hub</span>
+</div>
+<div class="hidden md:flex items-center gap-8 font-['Space_Grotesk'] tracking-wider uppercase text-sm font-bold">
+<a class="text-slate-400 hover:text-cyan-300 transition-colors" href="#">Services</a>
+<a class="text-slate-400 hover:text-cyan-300 transition-colors" href="#">Projects</a>
+<a class="text-slate-400 hover:text-cyan-300 transition-colors" href="#">Reviews</a>
+<a class="text-slate-400 hover:text-cyan-300 transition-colors" href="#">Consultation</a>
+<a class="text-slate-400 hover:text-cyan-300 transition-colors" href="#">About</a>
+</div>
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold px-6 py-2 rounded-md scale-95 active:scale-90 transition-transform glow-hover">
+                Get Quote
+            </button>
+</div>
+</nav>
+<main class="pt-32 pb-20 px-6 max-w-5xl mx-auto min-h-screen">
+<header class="mb-12 text-center md:text-left">
+<h1 class="font-headline text-5xl md:text-6xl font-extrabold tracking-tight mb-4 text-on-background">
+                Privacy <span class="text-primary">Configuration</span>
+</h1>
+<p class="text-on-surface-variant max-w-2xl text-lg">
+                Manage your digital footprint and data transmission protocols. Adjust the settings below to optimize your system interaction experience.
+            </p>
+</header>
+<section class="grid grid-cols-1 gap-6">
+<div class="relative surface-container-low rounded-xl p-8 glass-panel border border-white/5 overflow-hidden group">
+<div class="pulse-tracer"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary" data-icon="security">security</span>
+<h3 class="font-headline text-xl font-bold tracking-wide">Core System Cookies</h3>
+</div>
+<p class="text-on-surface-variant text-sm">
+                            Mandatory data kernels required for basic hub functionality. These protocols ensure secure login authentication, load balancing, and session integrity across our neural network.
+                        </p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-bold text-primary tracking-widest uppercase">ALWAYS ACTIVE</span>
+<div class="relative inline-flex items-center cursor-not-allowed opacity-50">
+<div class="w-12 h-6 bg-primary rounded-full"></div>
+<div class="absolute left-7 w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="relative surface-container-low rounded-xl p-8 glass-panel border border-white/5 overflow-hidden group hover:border-primary/20 transition-all">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-secondary" data-icon="extension">extension</span>
+<h3 class="font-headline text-xl font-bold tracking-wide">Experience Enhancement Protocols</h3>
+</div>
+<p class="text-on-surface-variant text-sm">
+                            Enables advanced UI features such as regional localization, layout preferences, and persistent visual themes. Disabling these will revert the interface to standard terminal settings.
+                        </p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-12 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="relative surface-container-low rounded-xl p-8 glass-panel border border-white/5 overflow-hidden group hover:border-primary/20 transition-all">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="analytics">analytics</span>
+<h3 class="font-headline text-xl font-bold tracking-wide">Diagnostic Data Stream</h3>
+</div>
+<p class="text-on-surface-variant text-sm">
+                            Transmits anonymized system performance metrics to our central processing unit. This telemetry allows us to calibrate network efficiency and optimize resource allocation.
+                        </p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-12 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+<div class="p-6 rounded-xl border border-outline-variant/20 bg-surface-container-lowest flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="policy">policy</span>
+<div>
+<h4 class="font-headline font-bold mb-1">Privacy Protocol v4.2</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                            Our data harvesting adheres to the Interstellar Privacy Standards. We encrypt all telemetry before transmission to ensure zero-point leakage.
+                        </p>
+</div>
+</div>
+<div class="p-6 rounded-xl border border-outline-variant/20 bg-surface-container-lowest flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="memory">memory</span>
+<div>
+<h4 class="font-headline font-bold mb-1">Neural Retention</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                            Preference tokens are stored within your local system buffer for 365 orbital rotations. You may clear your cache at any point.
+                        </p>
+</div>
+</div>
+</div>
+<div class="mt-12 flex flex-col md:flex-row items-center justify-center gap-6">
+<button class="w-full md:w-auto px-10 py-4 font-headline font-bold tracking-widest uppercase bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-md glow-hover transition-all active:scale-95">
+                    Save Preferences
+                </button>
+<button class="w-full md:w-auto px-10 py-4 font-headline font-bold tracking-widest uppercase glass-panel border border-outline-variant text-primary rounded-md hover:bg-white/5 transition-all">
+                    Reset To Default
+                </button>
+</div>
+</section>
+</main>
+<footer class="bg-slate-950 w-full py-12 px-8 border-t border-white/5">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<span class="text-lg font-bold text-slate-200 font-headline">Aster Tech Hub</span>
+</div>
+<div class="flex flex-wrap justify-center gap-8 font-['Space_Grotesk'] text-xs tracking-widest uppercase">
+<a class="text-slate-500 hover:text-cyan-400 transition-colors" href="#">Services</a>
+<a class="text-slate-500 hover:text-cyan-400 transition-colors" href="#">Projects</a>
+<a class="text-slate-500 hover:text-cyan-400 transition-colors" href="#">Reviews</a>
+<a class="text-slate-500 hover:text-cyan-400 transition-colors" href="#">Consultation</a>
+<a class="text-slate-500 hover:text-cyan-400 transition-colors" href="#">About</a>
+</div>
+<p class="text-slate-500 font-['Space_Grotesk'] text-xs tracking-widest uppercase">
+                © 2024 Aster Tech Hub, Davangere. All rights reserved.
+            </p>
+</div>
+</footer>
+</body></html>

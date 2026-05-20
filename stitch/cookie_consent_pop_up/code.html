@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ASTER SENTINEL // COOKIE PROTOCOL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#303036",
+                        "background": "#131318",
+                        "inverse-surface": "#e4e1e9",
+                        "on-surface": "#e4e1e9",
+                        "surface-container-high": "#2a292f",
+                        "secondary": "#d9b9ff",
+                        "tertiary": "#dedfdf",
+                        "inverse-primary": "#00677e",
+                        "outline": "#859398",
+                        "surface": "#131318",
+                        "surface-tint": "#3cd7ff",
+                        "secondary-fixed": "#eedbff",
+                        "on-error-container": "#ffdad6",
+                        "error-container": "#93000a",
+                        "surface-variant": "#35343a",
+                        "on-secondary-fixed": "#2a0054",
+                        "on-error": "#690005",
+                        "tertiary-container": "#c2c3c3",
+                        "secondary-fixed-dim": "#d9b9ff",
+                        "on-surface-variant": "#bbc9cf",
+                        "on-primary-container": "#00586b",
+                        "on-secondary": "#460085",
+                        "on-tertiary": "#2f3131",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-background": "#e4e1e9",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-fixed": "#001f27",
+                        "primary-container": "#00d4ff",
+                        "on-primary": "#003642",
+                        "surface-dim": "#131318",
+                        "on-secondary-container": "#efdeff",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#1b1b20",
+                        "surface-bright": "#39383e",
+                        "primary": "#a8e8ff",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "primary-fixed-dim": "#3cd7ff",
+                        "surface-container-highest": "#35343a",
+                        "outline-variant": "#3c494e",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container": "#1f1f25",
+                        "on-secondary-fixed-variant": "#6400ba",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-lowest": "#0e0e13",
+                        "on-tertiary-container": "#4f5051",
+                        "primary-fixed": "#b4ebff",
+                        "secondary-container": "#8c0eff"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .neon-border {
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2), inset 0 0 5px rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(168, 232, 255, 0.15);
+        }
+        .pulse-tracer {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d9b9ff, transparent);
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface selection:bg-primary-container/30 overflow-hidden">
+<!-- BACKGROUND BLURRED INTERFACE (THE CANVAS) -->
+<div class="fixed inset-0 z-0 grayscale opacity-40 blur-xl pointer-events-none scale-105">
+<!-- TopAppBar (Simulated Background) -->
+<header class="flex justify-between items-center px-8 py-4 w-full border-b border-outline-variant/20 bg-surface">
+<div class="text-2xl font-headline font-bold tracking-[0.2em] text-primary">ASTER SENTINEL</div>
+<div class="flex gap-8 font-headline text-sm tracking-widest text-on-surface-variant">
+<span>STRATOS</span>
+<span>ORBIT</span>
+<span>ARCHIVE</span>
+</div>
+</header>
+<!-- Hero Section (Simulated Background) -->
+<main class="max-w-7xl mx-auto px-8 pt-24">
+<div class="grid grid-cols-12 gap-8">
+<div class="col-span-8 h-96 bg-surface-container-low rounded-xl"></div>
+<div class="col-span-4 h-96 bg-surface-container-highest rounded-xl"></div>
+<div class="col-span-4 h-64 bg-surface-container-low rounded-xl"></div>
+<div class="col-span-8 h-64 bg-surface-container-highest rounded-xl"></div>
+</div>
+</main>
+</div>
+<!-- MODAL OVERLAY -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-[#0A0A0F]/60 backdrop-blur-sm p-4">
+<!-- USER COOKIE PROTOCOL CARD -->
+<div class="relative w-full max-w-lg glass-panel neon-border rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+<div class="pulse-tracer"></div>
+<!-- Close Icon -->
+<button class="absolute top-4 right-4 text-on-surface-variant hover:text-primary transition-colors p-1 group">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+<!-- Content Container -->
+<div class="p-8 md:p-10 flex flex-col items-center text-center">
+<!-- Brand Logo Segment -->
+<div class="mb-8 p-3 rounded-full bg-surface-container-highest/50 ring-1 ring-outline-variant/30">
+<img alt="Aster Tech Logo" class="w-12 h-12 object-contain" data-alt="Modern geometric logo with interlocking circular lines in cyan and indigo, representing a tech neural network or orbital path" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy9ue4TQ6ucrfDhzgQH2LaB6WfDIjr4lbxbxEVNiPIeOZ2Y9RUlnChm7V4SlDUHIiValNIEtM29NNLm_-ASEqDmPZKxe7MWP7C4LRDhIpvOcIpuG7fKm9jCftpzJ657HnTabMJV-9st1eXNRRj_4G3R-3ui9c9goAfREa8CASOZ8Sycq8zlF1qeNP1NllrrUBciTmpLzzwRtN0qKJezN4-tPjeIRTYbfoLuHLnxdpBE8hRG01QItWrg40gl6qv3MAK3lsAf0xd-dk"/>
+</div>
+<!-- Headline Segment -->
+<div class="space-y-2 mb-6">
+<div class="font-headline text-[10px] tracking-[0.4em] text-secondary font-semibold uppercase">Protocol: Digital Footprint Consent</div>
+<h2 class="font-headline text-2xl md:text-3xl font-bold tracking-tight text-on-surface">User Cookie Protocol</h2>
+</div>
+<!-- Body Text -->
+<p class="text-on-surface-variant text-sm md:text-base leading-relaxed mb-10 max-w-sm">
+                    To optimize your experience within the <span class="text-primary font-medium">Aster ecosystem</span>, we use digital tracking protocols (cookies). These enhance system performance and tailor your interaction with the frontier.
+                </p>
+<!-- Actions -->
+<div class="flex flex-col w-full gap-4">
+<!-- Primary Action -->
+<button class="w-full py-4 rounded-md font-headline font-bold tracking-widest text-sm uppercase bg-gradient-to-br from-primary to-primary-container text-on-primary-container shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)] transition-all duration-300 active:scale-[0.98]">
+                        Authorize All
+                    </button>
+<!-- Secondary Action -->
+<button class="w-full py-4 rounded-md font-headline font-bold tracking-widest text-sm uppercase border border-outline-variant/30 text-primary hover:bg-white/5 transition-all duration-300 active:scale-[0.98]">
+                        Configure Protocol
+                    </button>
+</div>
+<!-- Footer Link -->
+<div class="mt-8">
+<a class="font-headline text-[10px] tracking-[0.25em] text-on-surface-variant hover:text-secondary transition-colors uppercase border-b border-transparent hover:border-secondary pb-0.5" href="#">
+                        Privacy Architecture
+                    </a>
+</div>
+</div>
+<!-- Decorative corner accent -->
+<div class="absolute bottom-0 right-0 w-16 h-16 pointer-events-none overflow-hidden opacity-20">
+<div class="absolute bottom-[-10px] right-[-10px] w-20 h-20 border-[1px] border-primary rotate-45"></div>
+</div>
+</div>
+</div>
+<!-- FOOTER (SHARED COMPONENT) -->
+<footer class="fixed bottom-0 left-0 w-full py-12 flex flex-col items-center gap-6 px-4 z-10 pointer-events-none opacity-20">
+<div class="text-lg font-bold text-primary font-headline tracking-[0.2em]">ASTER SENTINEL</div>
+<div class="flex gap-8">
+<span class="font-headline text-[10px] tracking-[0.3em] uppercase text-on-surface-variant">PRIVACY_PROTOCOL</span>
+<span class="font-headline text-[10px] tracking-[0.3em] uppercase text-on-surface-variant">SYSTEM_STATUS</span>
+<span class="font-headline text-[10px] tracking-[0.3em] uppercase text-on-surface-variant">ENCRYPTION_LOGS</span>
+</div>
+<p class="font-headline text-[10px] tracking-[0.3em] uppercase text-on-surface-variant">© 2124 ASTER SENTINEL // NEURAL LINK ESTABLISHED</p>
+</footer>
+</body></html>

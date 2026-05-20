@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error-container": "#93000a",
+              "surface-dim": "#131318",
+              "secondary-container": "#8c0eff",
+              "on-surface-variant": "#bbc9cf",
+              "primary-fixed": "#b4ebff",
+              "outline": "#859398",
+              "on-tertiary-fixed": "#1a1c1c",
+              "on-error-container": "#ffdad6",
+              "primary-container": "#00d4ff",
+              "surface-container-highest": "#35343a",
+              "surface-container": "#1f1f25",
+              "on-primary": "#003642",
+              "on-surface": "#e4e1e9",
+              "secondary-fixed": "#eedbff",
+              "background": "#0A0A0F",
+              "surface-container-lowest": "#0e0e13",
+              "on-error": "#690005",
+              "error": "#ffb4ab",
+              "surface-tint": "#3cd7ff",
+              "on-primary-container": "#00586b",
+              "surface": "#131318",
+              "primary": "#a8e8ff",
+              "secondary-fixed-dim": "#d9b9ff",
+              "on-tertiary-container": "#4f5051",
+              "on-tertiary": "#2f3131",
+              "inverse-surface": "#e4e1e9",
+              "surface-container-low": "#1b1b20",
+              "inverse-on-surface": "#303036",
+              "tertiary": "#dedfdf",
+              "on-tertiary-fixed-variant": "#454747",
+              "on-secondary-fixed-variant": "#6400ba",
+              "tertiary-fixed": "#e2e2e2",
+              "surface-container-high": "#2a292f",
+              "on-primary-fixed-variant": "#004e5f",
+              "primary-fixed-dim": "#3cd7ff",
+              "on-background": "#e4e1e9",
+              "outline-variant": "#3c494e",
+              "tertiary-fixed-dim": "#c6c6c7",
+              "surface-variant": "#35343a",
+              "secondary": "#d9b9ff",
+              "on-primary-fixed": "#001f27",
+              "on-secondary-container": "#efdeff",
+              "inverse-primary": "#00677e",
+              "tertiary-container": "#c2c3c3",
+              "surface-bright": "#39383e",
+              "on-secondary": "#460085",
+              "on-secondary-fixed": "#2a0054"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(168, 232, 255, 0.1);
+            border-left: 1px solid rgba(168, 232, 255, 0.1);
+        }
+        .neon-glow:hover {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+        .gradient-orb {
+            background: radial-gradient(circle at center, rgba(140, 14, 255, 0.15) 0%, rgba(0, 212, 255, 0.1) 30%, transparent 70%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen selection:bg-primary/30">
+<!-- TopNavBar (Suppressed based on Transactional Rule, but using branding from JSON) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-6 max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-2">
+<img alt="Aster Tech Hub Logo" class="w-8 h-8" data-alt="Abstract geometric tech logo with cyan and purple futuristic shapes on a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzQiKbwl-KSZxWg2Shp17XsBqkuT1w0SG8VMhDv5yJRG7OEZp-gaLFpI-bq5DpBEJdOyuGQkplTP1o6KjA6mnRM-9bkRu2U81fX8wZZCgOf-zxI7ifTmqGhui4W1oPIfXgYcobp2xlHbZlYthvKfj2HheYUzAQhILKlmzOPCd1mfmmrfhXYqV2bhTuxFIg-qt1_rbHW9zKUAhb4QuuiyyyLcfA1yJ2x9TYBiv8K9mNBLbx7VObYnkb6wIVT1cBRX3HmP2Ti9vYwWQ"/>
+<span class="text-2xl font-bold tracking-tighter text-cyan-400 drop-shadow-[0_0_8px_rgba(0,212,255,0.5)] font-headline uppercase">Aster Tech Hub</span>
+</div>
+</header>
+<main class="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+<!-- Ambient Decorative Elements -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] gradient-orb blur-[120px] -z-10"></div>
+<div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none -z-10" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCyFqywMhnNBvQxslHCUfQPNAj_VqsbPBBMtOF0EA5q4jIZYZ-Hog6aWulKY2-282lqsIA920RrVx_WkiIV-K4cifH5z958LrL6k3LABfjGOs29mMnNuMFFd983KZjQLrUzoUN1q9IMp8JnDq3Yegs8AQrKch-y8dMJQpwIQeryS6tUo6mQzToRZkFVV0kgTxPUZlqpEe-vkom7-NHudamHtVI0VKyxf-1Y1Iiw4psXitR0rLtvbgDAJkU-hsCSvxdv95buFp52H3I');"></div>
+<!-- Pulse Tracer (Signature Component) -->
+<div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-secondary to-transparent opacity-50"></div>
+<!-- Login Container -->
+<div class="w-full max-w-md glass-panel p-8 md:p-12 rounded-xl shadow-2xl relative">
+<div class="absolute -top-[1px] left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-40"></div>
+<div class="text-center mb-10">
+<h1 class="font-headline text-3xl font-bold tracking-tight text-on-surface mb-2 uppercase">Welcome Back</h1>
+<p class="text-on-surface-variant text-sm font-medium tracking-wide">Enter your credentials to access the hub</p>
+</div>
+<form class="space-y-6">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="font-headline text-xs tracking-widest uppercase text-on-surface-variant font-semibold">Email Address</label>
+<div class="relative">
+<input class="w-full bg-surface-container-highest border-none rounded-md px-4 py-3 text-on-surface focus:ring-1 focus:ring-primary/40 placeholder:text-on-surface-variant/30 transition-all outline-none" placeholder="architect@aster.tech" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="font-headline text-xs tracking-widest uppercase text-on-surface-variant font-semibold">Security Key</label>
+<a class="text-xs text-primary hover:text-primary-fixed-dim transition-colors tracking-wide" href="#">Forgot Password?</a>
+</div>
+<div class="relative">
+<input class="w-full bg-surface-container-highest border-none rounded-md px-4 py-3 text-on-surface focus:ring-1 focus:ring-primary/40 placeholder:text-on-surface-variant/30 transition-all outline-none" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Me -->
+<div class="flex items-center gap-2">
+<input class="w-4 h-4 rounded bg-surface-container-highest border-outline-variant text-primary focus:ring-offset-background focus:ring-primary" id="remember" type="checkbox"/>
+<label class="text-sm text-on-surface-variant select-none" for="remember">Maintain session persistence</label>
+</div>
+<!-- Primary CTA -->
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold py-3.5 rounded-md uppercase tracking-widest text-sm shadow-lg neon-glow transition-all transform active:scale-[0.98]" type="submit">
+                    Login
+                </button>
+<!-- Divider -->
+<div class="flex items-center gap-4 py-2">
+<div class="h-[1px] flex-1 bg-outline-variant/20"></div>
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant/50 font-bold">OR</span>
+<div class="h-[1px] flex-1 bg-outline-variant/20"></div>
+</div>
+<!-- Secondary Social CTA -->
+<button class="w-full flex items-center justify-center gap-3 bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container-high text-on-surface py-3 rounded-md transition-all group" type="button">
+<img alt="Google" class="w-5 h-5 opacity-80 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpI-NEEuFk9iiYtzWp5G-qNQTerP-eQAIB3mkU0BzXPp3Ng3sY9JFIGLO9nZpomQgbH5iWm01fqWf1yGI2m5khpfqrmnSe3R6-LwADSlIWY6xWTl_jYdeJhK5y7WVjT9LBpedjGx3nE11DdVVBH1kzWgWgSrv6lvKJiws9QXA7EXsPJmA299h2oc8wuB0ZbEHkuMEhDUw0cyM4LsBW6qR7C4atVMSgwca5acLfJ0CchqBIxGX3FKTJTeX8dv_CR6TNJRvkDoAp-1k"/>
+<span class="font-headline text-xs tracking-widest uppercase font-semibold">Sign up with Google</span>
+</button>
+</form>
+<p class="mt-8 text-center text-xs text-on-surface-variant/60 tracking-wide">
+                New to the system? <a class="text-secondary font-bold hover:underline decoration-secondary/30" href="#">Initiate Onboarding</a>
+</p>
+</div>
+</main>
+<!-- Simple Footer (Suppressed based on Transactional Rule, but using elements from JSON) -->
+<footer class="fixed bottom-0 w-full py-6 px-8 flex justify-between items-center opacity-40 pointer-events-none">
+<p class="font-headline text-[10px] tracking-widest uppercase text-on-surface-variant">© 2024 Aster Tech Hub. Architectural Digital Systems.</p>
+<div class="flex gap-4">
+<span class="font-headline text-[10px] tracking-widest uppercase text-on-surface-variant">System Status: Online</span>
+</div>
+</footer>
+</body></html>

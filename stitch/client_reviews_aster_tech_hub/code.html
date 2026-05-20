@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#8c0eff",
+              "inverse-surface": "#e4e1e9",
+              "primary-container": "#00d4ff",
+              "outline": "#859398",
+              "surface-variant": "#35343a",
+              "tertiary-fixed-dim": "#c6c6c7",
+              "on-primary": "#003642",
+              "primary": "#a8e8ff",
+              "inverse-on-surface": "#303036",
+              "secondary-fixed-dim": "#d9b9ff",
+              "tertiary-container": "#c2c3c3",
+              "tertiary-fixed": "#e2e2e2",
+              "outline-variant": "#3c494e",
+              "surface-tint": "#3cd7ff",
+              "on-tertiary-container": "#4f5051",
+              "on-tertiary-fixed-variant": "#454747",
+              "primary-fixed-dim": "#3cd7ff",
+              "on-tertiary": "#2f3131",
+              "tertiary": "#dedfdf",
+              "surface-bright": "#39383e",
+              "primary-fixed": "#b4ebff",
+              "on-background": "#e4e1e9",
+              "on-primary-container": "#00586b",
+              "surface": "#131318",
+              "surface-dim": "#131318",
+              "on-primary-fixed": "#001f27",
+              "surface-container-highest": "#35343a",
+              "error-container": "#93000a",
+              "on-surface": "#e4e1e9",
+              "on-tertiary-fixed": "#1a1c1c",
+              "on-primary-fixed-variant": "#004e5f",
+              "on-error": "#690005",
+              "on-secondary-container": "#efdeff",
+              "inverse-primary": "#00677e",
+              "secondary-fixed": "#eedbff",
+              "on-secondary": "#460085",
+              "surface-container-lowest": "#0e0e13",
+              "on-secondary-fixed": "#2a0054",
+              "surface-container-high": "#2a292f",
+              "on-secondary-fixed-variant": "#6400ba",
+              "surface-container": "#1f1f25",
+              "surface-container-low": "#1b1b20",
+              "background": "#131318",
+              "error": "#ffb4ab",
+              "on-surface-variant": "#bbc9cf",
+              "on-error-container": "#ffdad6",
+              "secondary": "#d9b9ff"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pulse-tracer {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d9b9ff, transparent);
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface font-body selection:bg-primary/30 selection:text-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/5 backdrop-blur-xl dark:bg-slate-950/40 border-b border-white/10 shadow-[0_4_30px_rgba(0,0,0,0.1)]">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-black tracking-tighter text-[#00D4FF] drop-shadow-[0_0_8px_rgba(0,212,255,0.5)] font-['Space_Grotesk']">
+                Aster Tech Hub
+            </div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="font-['Space_Grotesk'] tracking-wide uppercase text-sm text-slate-300 hover:text-[#00D4FF] transition-colors" href="#">Services</a>
+<a class="font-['Space_Grotesk'] tracking-wide uppercase text-sm text-slate-300 hover:text-[#00D4FF] transition-colors" href="#">Projects</a>
+<a class="font-['Space_Grotesk'] tracking-wide uppercase text-sm text-[#00D4FF] border-b-2 border-[#00D4FF] pb-1" href="#">Reviews</a>
+<a class="font-['Space_Grotesk'] tracking-wide uppercase text-sm text-slate-300 hover:text-[#00D4FF] transition-colors" href="#">Consultation</a>
+<a class="font-['Space_Grotesk'] tracking-wide uppercase text-sm text-slate-300 hover:text-[#00D4FF] transition-colors" href="#">About</a>
+</div>
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary px-6 py-2 rounded font-['Space_Grotesk'] text-sm font-bold uppercase tracking-wider hover:shadow-[0_0_20px_rgba(168,232,255,0.4)] transition-all transform hover:scale-105">
+                Get Quote
+            </button>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Quote Section -->
+<section class="relative min-h-[614px] flex items-center justify-center px-6 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-20" data-alt="abstract deep space nebula with bioluminescent blue and purple energy swirls and cosmic dust textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqj0YC1Z0bBcW9bIFylcD6hgqnXCxTQoqvr_3Fm48DzQNze1GvPL8LX4_2ley56XfC_OBAOofDsjWkcc7JOfGAz1WXWWgKpsHpdvbB0Plb1ltnIAyGKsV_nXrpyWycQrYvL93I6XWr5MFe0SN1JCCR7u4wbmX8q9uHzN_ILQe3puiDpArMbY80fx-IT-etD_jkDpt2n1-Iy37WDzHM1xRzq0-zL9RLOcvyjrUZmn7YHS1PrigX196qdlDLy2sojPPFQfqEB662sl0"/>
+<div class="absolute inset-0 bg-gradient-to-b from-surface-container-lowest via-transparent to-surface-container-lowest"></div>
+</div>
+<div class="relative z-10 max-w-4xl text-center">
+<div class="inline-block px-4 py-1 mb-6 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-bold tracking-[0.2em] uppercase font-headline">
+                    Testimonials
+                </div>
+<h1 class="text-4xl md:text-6xl font-black font-headline tracking-tighter text-on-surface mb-8 leading-tight">
+                    "Aster Tech Hub didn't just build our platform; they <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">engineered our future</span>."
+                </h1>
+<div class="flex items-center justify-center gap-4">
+<div class="h-[1px] w-12 bg-outline-variant"></div>
+<p class="font-headline text-on-surface-variant tracking-widest uppercase text-sm">Elena Vance • CEO, CyberLink Global</p>
+<div class="h-[1px] w-12 bg-outline-variant"></div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="max-w-7xl mx-auto px-6 py-12">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="p-8 surface-container-low glass-card rounded-xl text-center border-t border-primary/20">
+<div class="text-3xl font-black font-headline text-primary mb-1">98%</div>
+<div class="text-xs uppercase tracking-widest text-on-surface-variant">Client Retention</div>
+</div>
+<div class="p-8 surface-container-low glass-card rounded-xl text-center border-t border-primary/20">
+<div class="text-3xl font-black font-headline text-primary mb-1">150+</div>
+<div class="text-xs uppercase tracking-widest text-on-surface-variant">Launch Cycles</div>
+</div>
+<div class="p-8 surface-container-low glass-card rounded-xl text-center border-t border-primary/20">
+<div class="text-3xl font-black font-headline text-primary mb-1">4.9/5</div>
+<div class="text-xs uppercase tracking-widest text-on-surface-variant">Average Rating</div>
+</div>
+<div class="p-8 surface-container-low glass-card rounded-xl text-center border-t border-primary/20">
+<div class="text-3xl font-black font-headline text-primary mb-1">24/7</div>
+<div class="text-xs uppercase tracking-widest text-on-surface-variant">Active Support</div>
+</div>
+</div>
+</section>
+<!-- Testimonials Bento Grid -->
+<section class="max-w-7xl mx-auto px-6 py-24">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Large Featured Testimonial -->
+<div class="md:col-span-8 group relative overflow-hidden glass-card rounded-xl p-10 flex flex-col justify-between min-h-[400px]">
+<div class="pulse-tracer"></div>
+<div class="relative z-10">
+<div class="flex gap-1 mb-6">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-xl md:text-2xl text-on-surface font-medium leading-relaxed mb-8 italic">
+                            "The technical precision and architectural foresight provided by Aster Tech Hub transformed our legacy systems into a high-performance ecosystem. Their team operates with a level of transparency and technical mastery that is rare in today's market."
+                        </p>
+</div>
+<div class="flex items-center gap-4 relative z-10">
+<img class="w-14 h-14 rounded-full border-2 border-primary/30 object-cover" data-alt="professional woman executive portrait with warm lighting and minimalist office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcRTyuhUozsR5q89rMIU8c6qQ2Y5ihlRG7JP3Wsz0XwfCsMXFb5jPHH8m5IKcH3KmVu6NtN9B8cTEHZlGqZFowY7nv386FyakrgNFTQTrFXOG-Q8PapIMARTw20E1ZPbhW1XW61gT0_s_6uxCJZIdHB9mYQx-A26Wbs_Qt1aAN09Qi18C8iXatnUnx7CfjA9JuHiBfdAs5_IXbZRU2-7xXuW56Mo7Op4glsPUXW0kpq865CSt-mRc--vVikuA141qReYaX4tGl5kE"/>
+<div>
+<h4 class="font-headline font-bold text-on-surface">Sarah J. Montgomery</h4>
+<p class="text-sm text-on-surface-variant uppercase tracking-tighter">CTO • Nexus Dynamics</p>
+</div>
+</div>
+</div>
+<!-- Small Testimonial 1 -->
+<div class="md:col-span-4 glass-card rounded-xl p-8 flex flex-col border-t border-secondary/20">
+<div class="flex gap-1 mb-4">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6 flex-grow">
+                        "Seamless integration and stunning UI. Our user engagement metrics shot up by 40% within the first month of launching the new dashboard."
+                    </p>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-headline text-secondary text-xs border border-secondary/30">MK</div>
+<div>
+<h4 class="text-xs font-headline font-bold text-on-surface">Marcus Kael</h4>
+<p class="text-[10px] text-on-surface-variant uppercase">Founder • Arc Systems</p>
+</div>
+</div>
+</div>
+<!-- Small Testimonial 2 -->
+<div class="md:col-span-4 glass-card rounded-xl p-8 flex flex-col">
+<div class="flex gap-1 mb-4">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6 flex-grow">
+                        "They don't just write code; they solve business problems. The AI implementation they developed for our logistics engine is world-class."
+                    </p>
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full border border-primary/30 object-cover" data-alt="headshot of a man with spectacles in a professional setting with soft blue lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDZG7xU0nMjIDWVxshkJ30uKGmheMM3SUPNVxShESWO2g-5FGhu5WwZEb7XVb557rtJnXJpmgZAy2KGAufXPYErx2gyTbAw6laJN1zsTiyMZ0pkm8T7kp_r4N7ERDoBLEtO63Aa1QSf6G_gnZJbF8DCAhdGdGOICXQLg4FeSd8uyW3v42ASz7zI2uW0eoYZpNCX9SeN4xnDfSYTE0XPMhEyuGx7hujA1aAvhws1rNpAOQFr_bqjdGmFdRny1Qwvjg7jd7zuboCcmY"/>
+<div>
+<h4 class="text-xs font-headline font-bold text-on-surface">David Chen</h4>
+<p class="text-[10px] text-on-surface-variant uppercase">Lead Dev • Quantum Logic</p>
+</div>
+</div>
+</div>
+<!-- Medium Testimonial -->
+<div class="md:col-span-8 glass-card rounded-xl p-10 flex flex-col md:flex-row gap-8 items-center border-l border-primary/20">
+<div class="md:w-1/3">
+<img class="w-full aspect-square rounded-xl object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="portrait of a confident woman engineer in a modern tech environment with digital screens background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsrYmbCw07oSnbBtyTjqtfkIbKSVKxGy04YB9iX4ULQSboCWMbQMyyXGVaF6diKmFlRdaEt3TczHHLbrYOw8-WpdsE5_X31hCh6hpVxAGkMj0BV6tSaCGUGo2WUv-Jjg1Qp6ZmT2oiSg3chIa8bikMAphDaMEM-1X7AtKQnp04S4GosZSJZ4mkRFUjWBKyjzfaZYPdCb5j3OTUV25895Q9YMeYjzlB-uP8ON_ZnyHfAfxK_L---gTuxiLZBElLPQjt-LiBd3t4hqk"/>
+</div>
+<div class="md:w-2/3">
+<div class="flex gap-1 mb-4">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-lg text-on-surface leading-snug mb-6">
+                            "Working with Aster was like having an in-house R&amp;D lab. They were proactive about security and scalability from day one."
+                        </p>
+<div>
+<h4 class="font-headline font-bold text-on-surface">Linda Rodriguez</h4>
+<p class="text-sm text-on-surface-variant uppercase tracking-tighter">Director of Engineering • TerraForm</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Call to Action -->
+<section class="max-w-7xl mx-auto px-6 py-24 text-center">
+<div class="glass-card rounded-3xl p-16 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[100px] -mr-32 -mt-32"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-[100px] -ml-32 -mb-32"></div>
+<h2 class="text-3xl md:text-5xl font-black font-headline tracking-tighter mb-6">Ready to build your story?</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto mb-10 text-lg">Join the ranks of global innovators who have scaled their vision with Aster Tech Hub's elite engineering.</p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold rounded-lg shadow-[0_0_25px_rgba(0,212,255,0.3)] hover:scale-105 transition-transform">
+                        Start Your Project
+                    </button>
+<button class="w-full sm:w-auto px-10 py-4 border border-outline-variant text-primary font-bold rounded-lg hover:bg-white/5 transition-colors font-headline uppercase text-sm tracking-widest">
+                        View Case Studies
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0A0A0F] w-full border-t border-white/5 pt-12 pb-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-6 max-w-7xl mx-auto">
+<div class="space-y-4">
+<div class="text-xl font-bold text-[#00D4FF] font-['Space_Grotesk']">Aster Tech Hub</div>
+<p class="font-['Space_Grotesk'] text-slate-400 text-sm leading-relaxed">Architecting the future of digital interaction through high-fidelity engineering and visionary design.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-slate-500 hover:text-[#00D4FF] cursor-pointer">language</span>
+<span class="material-symbols-outlined text-slate-500 hover:text-[#00D4FF] cursor-pointer">hub</span>
+<span class="material-symbols-outlined text-slate-500 hover:text-[#00D4FF] cursor-pointer">terminal</span>
+</div>
+</div>
+<div>
+<h5 class="font-['Space_Grotesk'] font-bold text-[#00D4FF] mb-6 uppercase tracking-widest text-xs">Solutions</h5>
+<ul class="space-y-3 font-['Space_Grotesk'] text-slate-500 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">Services</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Projects</a></li>
+<li><a class="text-[#00D4FF]" href="#">Reviews</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-['Space_Grotesk'] font-bold text-[#00D4FF] mb-6 uppercase tracking-widest text-xs">Support</h5>
+<ul class="space-y-3 font-['Space_Grotesk'] text-slate-500 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">Consultation</a></li>
+<li><a class="hover:text-white transition-colors" href="#">About</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-['Space_Grotesk'] font-bold text-[#00D4FF] mb-6 uppercase tracking-widest text-xs">Newsletter</h5>
+<p class="font-['Space_Grotesk'] text-slate-400 text-xs mb-4">Stay updated with our latest architectural breakthroughs.</p>
+<div class="flex gap-2">
+<input class="bg-surface-container-highest border-none rounded px-3 py-2 text-sm w-full focus:ring-1 focus:ring-primary" placeholder="Email" type="email"/>
+<button class="bg-primary text-on-primary p-2 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-['Space_Grotesk'] text-slate-400 text-xs opacity-80 hover:opacity-100">© 2024 Aster Tech Hub. Davangere, India.</p>
+<div class="flex gap-6 font-['Space_Grotesk'] text-slate-500 text-[10px] uppercase tracking-widest">
+<a class="hover:text-[#00D4FF]" href="#">Terms of Service</a>
+<a class="hover:text-[#00D4FF]" href="#">Cookie Policy</a>
+<a class="hover:text-[#00D4FF]" href="#">Site Map</a>
+</div>
+</div>
+</footer>
+</body></html>
