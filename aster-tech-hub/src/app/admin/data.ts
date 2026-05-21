@@ -13,7 +13,7 @@ export const recentProjects = [
   },
   { 
     id: 2, name: "Mobile App v2", client: "StartupXYZ", status: "Review", progress: 90, value: "₹12,000",
-    deadline: "Sep 15, 2026", team: "Buden, Priya", deliverables: "App Wireframes, Navigation Structure",
+    deadline: "Sep 15, 2026", team: "Buden, Vinaya", deliverables: "App Wireframes, Navigation Structure",
     activityLog: [{ id: 2, text: "Sent to client for final review", time: "5 hours ago", type: "send" }]
   },
   { 
@@ -28,7 +28,7 @@ export const recentProjects = [
   },
   { 
     id: 5, name: "Green Build Website", client: "Green Build", status: "In Progress", progress: 85, value: "₹15,000",
-    deadline: "Aug 15, 2026", team: "Asif, Priya", deliverables: "Main Landing Page, Sustainability Dashboard",
+    deadline: "Aug 15, 2026", team: "Asif, Vinaya", deliverables: "Main Landing Page, Sustainability Dashboard",
     activityLog: [
       { id: 1, text: "Initial layout approved", time: "3 days ago", type: "check" },
       { id: 2, text: "Deployment set for next week", time: "Yesterday", type: "event" }
@@ -39,7 +39,7 @@ export const recentProjects = [
 export const teamPerformance = [
   { name: "Manjunath N", role: "Operational Director", tasks: 8, completed: 6, avatar: "MP" },
   { name: "Buden Sab I ", role: "Managing Director", tasks: 5, completed: 4, avatar: "RS" },
-  { name: "Priya N", role: "Project Manager", tasks: 12, completed: 10, avatar: "PN" },
+  { name: "Vinaya Kashi", role: "Marketing Leader", tasks: 12, completed: 10, avatar: "VK" },
   { name: "Asif K", role: "CEO", tasks: 4, completed: 3, avatar: "AK" },
 ];
 

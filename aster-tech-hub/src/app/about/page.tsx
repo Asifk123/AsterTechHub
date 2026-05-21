@@ -191,16 +191,16 @@ export default function About() {
               </p>
             </div>
 
-            {/* Priya N - Project Manager */}
-            <div className="glass-panel rounded-2xl p-8 text-center group hover:border-white/30 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden shadow-lg">
-              <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="w-28 h-28 mx-auto mb-6 rounded-full bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center border border-white/10 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-500">
-                <span className="text-4xl font-headline text-on-surface font-black">PN</span>
+            {/* Vinaya Kashi - Marketing Leader */}
+            <div className="glass-panel rounded-2xl p-8 text-center group hover:border-[#FF54B0]/50 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-[#FF54B0]/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="w-28 h-28 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#FF54B0]/20 to-[#FF54B0]/5 flex items-center justify-center border border-[#FF54B0]/20 group-hover:shadow-[0_0_30px_rgba(255,84,176,0.4)] transition-all duration-500">
+                <span className="text-4xl font-headline text-[#FF54B0] font-black">VK</span>
               </div>
-              <h3 className="text-xl font-headline font-bold mb-1 transition-colors">Priya N</h3>
-              <p className="text-[10px] text-on-surface-variant tracking-widest uppercase mb-4 font-headline border border-white/10 rounded-full inline-block px-3 py-1 bg-white/5">Project Manager</p>
+              <h3 className="text-xl font-headline font-bold mb-1 group-hover:text-[#FF54B0] transition-colors">Vinaya Kashi</h3>
+              <p className="text-[10px] text-[#FF54B0] tracking-widest uppercase mb-4 font-headline border border-[#FF54B0]/20 rounded-full inline-block px-3 py-1 bg-[#FF54B0]/10">Marketing Leader</p>
               <p className="text-sm text-on-surface-variant mb-6 leading-relaxed">
-                Keeps everything on track, ensuring on-time delivery with uncompromising quality standards.
+                Drives brand growth and crafts high-performance marketing strategies to elevate our digital presence.
               </p>
             </div>
           </div>

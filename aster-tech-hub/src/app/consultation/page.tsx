@@ -25,6 +25,7 @@ export default function Consultation() {
   const [step, setStep] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showCallNumbers, setShowCallNumbers] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -351,35 +352,103 @@ export default function Consultation() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="glass-panel rounded-xl p-8 text-center hover:border-primary/30 hover:-translate-y-1 transition-all duration-300">
+            {/* HQ Location Card */}
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query=Anjaneya+Badavane,+Davanagere"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="glass-panel rounded-xl p-8 text-center hover:border-primary/30 hover:-translate-y-1 transition-all duration-300 block cursor-pointer"
+            >
               <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-6">
                 <span className="material-symbols-outlined text-3xl text-primary">location_on</span>
               </div>
               <h3 className="font-headline text-xl mb-2 text-on-surface text-white">Aster Tech HQ</h3>
               <p className="text-on-surface-variant text-sm leading-relaxed">
-                Davangere<br />
-                Karnataka, India
+                Anjaneya Badavane<br />
+                Davanagere, Karnataka, India
               </p>
-            </div>
+            </a>
 
-            <div className="glass-panel rounded-xl p-8 text-center hover:border-primary/30 hover:-translate-y-1 transition-all duration-300">
+            {/* Email Card */}
+            <a 
+              href="mailto:astertechhub@gmail.com"
+              className="glass-panel rounded-xl p-8 text-center hover:border-primary/30 hover:-translate-y-1 transition-all duration-300 block cursor-pointer"
+            >
               <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-6">
                 <span className="material-symbols-outlined text-3xl text-primary">mail</span>
               </div>
               <h3 className="font-headline text-xl mb-2 text-on-surface text-white">Email Us</h3>
-              <Link href="mailto:astertechhub@gmail.com" className="text-on-surface-variant hover:text-primary transition-colors text-sm">
+              <span className="text-on-surface-variant hover:text-primary transition-colors text-sm">
                 astertechhub@gmail.com
-              </Link>
-            </div>
+              </span>
+            </a>
 
-            <div className="glass-panel rounded-xl p-8 text-center hover:border-primary/30 hover:-translate-y-1 transition-all duration-300">
-              <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                <span className="material-symbols-outlined text-3xl text-primary">call</span>
+            {/* Call Us Card */}
+            <div 
+              onClick={() => !showCallNumbers && setShowCallNumbers(true)}
+              className={`glass-panel rounded-xl p-8 text-center hover:border-primary/30 transition-all duration-500 flex flex-col justify-between cursor-pointer ${
+                showCallNumbers ? "border-primary/30 -translate-y-1 bg-surface-container-high/40" : "hover:-translate-y-1"
+              }`}
+            >
+              <div>
+                <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-6 transition-all duration-500">
+                  <span className="material-symbols-outlined text-3xl text-primary">call</span>
+                </div>
+                <h3 className="font-headline text-xl text-on-surface text-white mb-2">Call Us</h3>
+                {!showCallNumbers && (
+                  <p className="text-[10px] text-primary tracking-widest uppercase font-headline animate-pulse mt-2">
+                    Click to Reveal Contacts
+                  </p>
+                )}
               </div>
-              <h3 className="font-headline text-xl mb-2 text-on-surface text-white">Call Us</h3>
-              <Link href="tel:+910000000000" className="text-on-surface-variant hover:text-primary transition-colors text-sm">
-                +91 XXXXX XXXXX
-              </Link>
+              
+              {showCallNumbers ? (
+                <div 
+                  className="space-y-3 text-left mt-6 animate-in fade-in slide-in-from-bottom-5 duration-500"
+                  onClick={(e) => e.stopPropagation()} // Prevent card click propagation
+                >
+                  {/* Managing Director (Buden Sab I) */}
+                  <a 
+                    href="tel:+918880459740" 
+                    className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:border-secondary/30 hover:bg-secondary/5 transition-all group/call block"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary group-hover/call:bg-secondary/20 transition-colors flex-shrink-0">
+                      <span className="material-symbols-outlined text-base">call</span>
+                    </div>
+                    <div>
+                      <div className="text-[9px] text-secondary tracking-widest uppercase font-headline">Buden Sab I (MD)</div>
+                      <div className="text-xs text-on-surface-variant group-hover/call:text-white transition-colors font-mono">+91 88804 59740</div>
+                    </div>
+                  </a>
+
+                  {/* Operations Director (Manjunath N) */}
+                  <a 
+                    href="tel:+919886606880" 
+                    className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:border-primary-container/30 hover:bg-primary-container/5 transition-all group/call block"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container group-hover/call:bg-primary-container/20 transition-colors flex-shrink-0">
+                      <span className="material-symbols-outlined text-base">call</span>
+                    </div>
+                    <div>
+                      <div className="text-[9px] text-primary-container tracking-widest uppercase font-headline">Manjunath N (OD)</div>
+                      <div className="text-xs text-on-surface-variant group-hover/call:text-white transition-colors font-mono">+91 98866 06880</div>
+                    </div>
+                  </a>
+
+                  {/* Hide Button to close numbers again */}
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowCallNumbers(false);
+                    }}
+                    className="w-full py-1 text-[9px] font-headline uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors mt-2"
+                  >
+                    Hide Contacts
+                  </button>
+                </div>
+              ) : (
+                <div className="h-0 opacity-0 overflow-hidden transition-all duration-500"></div>
+              )}
             </div>
           </div>
         </div>

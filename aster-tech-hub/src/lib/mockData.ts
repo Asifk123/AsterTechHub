@@ -20,7 +20,7 @@ export const dashboardServices = [
     progress: 40,
     status: "In Progress",
     description: "React Native app for iOS and Android",
-    team: ["Buden", "Priya"],
+    team: ["Buden", "Vinaya"],
     deadline: "September 15, 2026",
     deliverables: ["App Wireframes", "Navigation Structure"],
   },
