@@ -22,6 +22,9 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+  verification: {
+    google: "sAkC1SamPra8k4QpesKuhph3hMeSzlYeUDgCqXwck74",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
