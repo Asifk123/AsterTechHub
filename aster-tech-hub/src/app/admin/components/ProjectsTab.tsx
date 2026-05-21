@@ -318,7 +318,7 @@ export default function ProjectsTab() {
   const statusColumns = ["Planning", "In Progress", "Review", "Completed"];
 
   // Derive unique clients for the filter dropdown
-  const uniqueClients = ["All Clients", ...availableClients.map(c => c.full_name)];
+  const uniqueClients = ["All Clients", ...Array.from(new Set(availableClients.map(c => c.full_name).filter(Boolean)))];
 
   // Filter projects based on search and client selection
   const filteredProjects = React.useMemo(() => {
