@@ -36,60 +36,19 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  // 1. If trying to access protected routes without login
   const isProtectedRoute = request.nextUrl.pathname.startsWith('/admin') ||
-    request.nextUrl.pathname.startsWith('/dashboard');
+    request.nextUrl.pathname.startsWith('/dashboard') ||
+    request.nextUrl.pathname.startsWith('/team');
 
+  // 1. If trying to access protected routes without login, redirect to login
   if (!user && isProtectedRoute) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // 2. Role & Verification Logic (if logged in)
-  if (user) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role, status')
-      .eq('id', user.id)
-      .single();
-
-    const role = (profile?.role || '').toUpperCase();
-    const status = profile?.status;
-
-    // HARDCODED BYPASS FOR CEO
-    const isExecutive = ['ADMIN', 'CEO', 'MD', 'OD'].includes(role) || user.email === 'samasif582@gmail.com';
-    const isTeam = role === 'TEAM';
-
-    // Block pending users from any dashboard
-    if (status === 'pending' && isProtectedRoute) {
-      return NextResponse.redirect(new URL('/pending', request.url));
-    }
-
-    // -- 3-WAY ACCESS CONTROL --
-
-    // 1. /admin access: Only Executives
-    if (request.nextUrl.pathname.startsWith('/admin') && !isExecutive) {
-      const target = isTeam ? '/team' : '/dashboard';
-      return NextResponse.redirect(new URL(target, request.url));
-    }
-
-    // 2. /team access: Only Team Members and Executives (Executives might want to see team board)
-    if (request.nextUrl.pathname.startsWith('/team') && !isTeam && !isExecutive) {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
-    }
-
-    // 3. /dashboard access: Only Clients and Executives
-    if (request.nextUrl.pathname.startsWith('/dashboard') && !isExecutive && role !== 'CLIENT') {
-      const target = isTeam ? '/team' : '/login';
-      return NextResponse.redirect(new URL(target, request.url));
-    }
-
-    // Redirect already logged in users from login/signup
-    if (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup') {
-      let target = '/dashboard';
-      if (isExecutive) target = '/admin';
-      else if (isTeam) target = '/team';
-      return NextResponse.redirect(new URL(target, request.url));
-    }
+  // 2. Redirect already logged in users away from login/signup to dashboard
+  // Client-side AuthGuard will handle role-based redirection from dashboard immediately
+  if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
   return response;
