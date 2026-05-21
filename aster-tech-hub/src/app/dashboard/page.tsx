@@ -236,13 +236,6 @@ export default function Dashboard() {
     }
   };
 
-  const [showScheduleModal, setShowScheduleModal] = useState(false);
-  const [meetingForm, setMeetingForm] = useState({
-    title: "",
-    date: "",
-    time: "",
-    type: "Video Call",
-  });
   const [submittedMeetings, setSubmittedMeetings] = useState<any[]>([]);
   const [showServiceModal, setShowServiceModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -259,30 +252,6 @@ export default function Dashboard() {
     budget: "",
     timeline: "",
   });
-
-  const handleScheduleMeeting = async (e: any) => {
-    e.preventDefault();
-    if (meetingForm.title && meetingForm.date && meetingForm.time) {
-      try {
-        const newMeeting = {
-          title: meetingForm.title,
-          description: `Type: ${meetingForm.type} | Client Request: ${userProfileRef.current?.full_name || "Unknown"}`,
-          date: meetingForm.date,
-          time: meetingForm.time,
-          status: 'Active',
-          client_id: userProfileRef.current?.id || null
-        };
-        await projectService.createTeamMeeting(newMeeting);
-        setMeetingForm({ title: "", date: "", time: "", type: "Video Call" });
-        setShowScheduleModal(false);
-        fetchMeetings(userProfileRef.current);
-        showNotify("Meeting requested successfully!");
-      } catch (error) {
-        console.error("Error scheduling meeting:", error);
-        showNotify("Failed to request meeting.", "error");
-      }
-    }
-  };
 
   const handleCompleteMeeting = async (meetingId: string) => {
     try {
@@ -608,12 +577,6 @@ export default function Dashboard() {
                       <p className="text-xs text-on-surface-variant text-center py-4">No meetings scheduled.</p>
                     )}
                   </div>
-                  <button
-                    onClick={() => setShowScheduleModal(true)}
-                    className="w-full mt-6 py-3 rounded-xl bg-surface-container-high border border-white/10 text-on-surface font-headline font-bold text-xs uppercase tracking-widest hover:bg-white/10 hover:border-white/30 transition-all"
-                  >
-                    Schedule New Meeting
-                  </button>
                 </div>
 
                 {/* Recent Updates */}
@@ -697,48 +660,6 @@ export default function Dashboard() {
       </section>
 
       {/* MODALS */}
-      {showScheduleModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md px-4">
-          <div className="glass-panel rounded-2xl p-6 md:p-8 w-full max-w-md border border-primary/30 shadow-[0_0_50px_rgba(0,212,255,0.15)] transform transition-all animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-headline font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                Schedule Meeting
-              </h3>
-              <button onClick={() => setShowScheduleModal(false)} className="material-symbols-outlined text-on-surface-variant hover:text-white transition-colors bg-surface-container-low p-2 rounded-lg">
-                close
-              </button>
-            </div>
-            <form onSubmit={handleScheduleMeeting} className="space-y-5">
-              <div>
-                <label className="block text-[10px] font-headline font-bold text-on-surface-variant mb-2 uppercase tracking-widest">Meeting Title</label>
-                <input required type="text" value={meetingForm.title} onChange={(e) => setMeetingForm({ ...meetingForm, title: e.target.value })} placeholder="e.g., Sprint Review" className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white placeholder-white/20 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm" />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[10px] font-headline font-bold text-on-surface-variant mb-2 uppercase tracking-widest">Date</label>
-                  <input required type="date" value={meetingForm.date} onChange={(e) => setMeetingForm({ ...meetingForm, date: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm" />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-headline font-bold text-on-surface-variant mb-2 uppercase tracking-widest">Time</label>
-                  <input required type="time" value={meetingForm.time} onChange={(e) => setMeetingForm({ ...meetingForm, time: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-[10px] font-headline font-bold text-on-surface-variant mb-2 uppercase tracking-widest">Meeting Type</label>
-                <select value={meetingForm.type} onChange={(e) => setMeetingForm({ ...meetingForm, type: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm">
-                  <option value="Video Call">Video Call</option>
-                  <option value="In-Person">In-Person</option>
-                  <option value="Phone Call">Phone Call</option>
-                </select>
-              </div>
-              <div className="flex gap-3 pt-6 border-t border-white/5 mt-4">
-                <button type="button" onClick={() => setShowScheduleModal(false)} className="flex-1 py-3 rounded-xl bg-surface-container-low text-on-surface font-headline font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition-all border border-white/5">Cancel</button>
-                <button type="submit" className="flex-1 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:scale-[1.02] transition-all">Schedule</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
 
       {showServiceModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md px-4">
