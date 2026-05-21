@@ -9,11 +9,12 @@ export default function PendingVerification() {
   const router = useRouter();
 
   useEffect(() => {
-    let subscription: any;
+    let active = true;
+    let channel: any = null;
 
     const checkStatusAndSubscribe = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user || !active) return;
 
       // 1. Initial check just in case they were approved while the page was loading
       const { data: profile } = await supabase
@@ -22,14 +23,16 @@ export default function PendingVerification() {
         .eq('id', user.id)
         .single();
 
+      if (!active) return;
+
       if (profile?.status === 'approved') {
         router.push('/dashboard');
         return;
       }
 
       // 2. Listen for real-time changes
-      subscription = supabase
-        .channel('pending-status')
+      channel = supabase
+        .channel(`pending-status-${user.id}`)
         .on(
           'postgres_changes',
           {
@@ -50,8 +53,9 @@ export default function PendingVerification() {
     checkStatusAndSubscribe();
 
     return () => {
-      if (subscription) {
-        supabase.removeChannel(subscription);
+      active = false;
+      if (channel) {
+        supabase.removeChannel(channel);
       }
     };
   }, [router]);
