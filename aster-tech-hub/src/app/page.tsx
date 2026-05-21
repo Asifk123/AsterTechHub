@@ -146,8 +146,8 @@ export default function Home() {
           {/* Service Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6">
             {/* Web Dev Card */}
-            <div className="glass-panel group p-8 rounded-xl border border-white/5 hover:border-primary/30 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full">
-              <div className="mb-8 inline-flex items-center justify-center w-14 h-14 rounded-lg bg-primary/10 text-primary flex-shrink-0">
+            <div className="glass-panel group p-8 rounded-xl border border-white/5 hover:border-sky-400/30 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full">
+              <div className="mb-8 inline-flex items-center justify-center w-14 h-14 rounded-lg bg-sky-400/10 text-sky-400 flex-shrink-0">
                 <span className="material-symbols-outlined text-3xl">code</span>
               </div>
               <h3 className="text-xl font-headline font-bold mb-4">Web Dev</h3>
@@ -157,7 +157,7 @@ export default function Home() {
               </p>
               <Link
                 href="/services"
-                className="inline-flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-widest group-hover:gap-4 transition-all font-headline mt-auto pt-4"
+                className="inline-flex items-center gap-2 text-sky-400 text-xs font-bold uppercase tracking-widest group-hover:gap-4 transition-all font-headline mt-auto pt-4"
               >
                 Explore{" "}
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -201,8 +201,8 @@ export default function Home() {
             </div>
 
             {/* Digital Marketing Card */}
-            <div className="glass-panel group p-8 rounded-xl border border-white/5 hover:border-secondary/30 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full">
-              <div className="mb-8 inline-flex items-center justify-center w-14 h-14 rounded-lg bg-secondary/10 text-secondary flex-shrink-0">
+            <div className="glass-panel group p-8 rounded-xl border border-white/5 hover:border-green-400/30 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full">
+              <div className="mb-8 inline-flex items-center justify-center w-14 h-14 rounded-lg bg-green-400/10 text-green-400 flex-shrink-0">
                 <span className="material-symbols-outlined text-3xl">campaign</span>
               </div>
               <h3 className="text-xl font-headline font-bold mb-4">
@@ -213,7 +213,7 @@ export default function Home() {
               </p>
               <Link
                 href="/services"
-                className="inline-flex items-center gap-2 text-secondary text-xs font-bold uppercase tracking-widest group-hover:gap-4 transition-all font-headline mt-auto pt-4"
+                className="inline-flex items-center gap-2 text-green-400 text-xs font-bold uppercase tracking-widest group-hover:gap-4 transition-all font-headline mt-auto pt-4"
               >
                 Explore{" "}
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
