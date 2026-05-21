@@ -17,27 +17,43 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
   const pathname = usePathname();
 
   useEffect(() => {
-    // Safety guard: guarantee the loading screen is dismissed after 4.5 seconds
+    let isMounted = true;
+
+    // Safety timeout: Guarantee that the loader is dismissed after 3.5 seconds
     const safetyTimeout = setTimeout(() => {
-      setIsLoading(false);
-      // Soft bypass: if they have a session locally in localstorage, assume authorized
+      if (!isMounted) return;
+      console.warn("Auth check safety timeout triggered. Attempting recovery...");
+      
+      // Fallback: Check if there's any trace of a local session
       try {
         const hasLocalSession = typeof window !== 'undefined' && 
           Object.keys(localStorage).some(key => key.startsWith('sb-') && key.endsWith('-auth-token'));
+        
         if (hasLocalSession) {
+          console.log("Found local session in localStorage during safety timeout, soft authorizing...");
           setAuthorized(true);
+          setIsLoading(false);
+        } else {
+          console.warn("No local session found during safety timeout, redirecting to login...");
+          if (pathname !== '/login' && pathname !== '/signup') {
+            router.replace(`/login?returnUrl=${encodeURIComponent(pathname)}`);
+          }
+          setIsLoading(false);
         }
-      } catch (e) {}
-      console.warn("Auth check safety timeout triggered.");
-    }, 4500);
+      } catch (e) {
+        setIsLoading(false);
+      }
+    }, 3500);
 
     const checkAuth = async () => {
       try {
-        // 1. Check Session
+        // 1. Fetch Session from Supabase
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
+        if (!isMounted) return;
+
         if (sessionError || !session) {
-          // Not logged in
+          console.log("No session returned from getSession");
           if (pathname !== '/login' && pathname !== '/signup') {
             router.replace(`/login?returnUrl=${encodeURIComponent(pathname)}`);
           }
@@ -49,7 +65,7 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
         if (session.user.email === 'samasif582@gmail.com') {
           try {
             // Self-heal profile record in database to satisfy all RLS conditions
-            const { data: dbProfile, error: dbError } = await supabase
+            const { data: dbProfile } = await supabase
               .from('profiles')
               .select('*')
               .eq('id', session.user.id)
@@ -81,6 +97,7 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
           }
           setAuthorized(true);
           setIsLoading(false);
+          clearTimeout(safetyTimeout);
           return;
         }
 
@@ -91,13 +108,15 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
           .eq('id', session.user.id)
           .single();
 
+        if (!isMounted) return;
+
         if (profileError && profileError.code !== 'PGRST116') {
-          console.error('Database Error:', profileError);
-          // Don't redirect yet, let's see if we can still authorize
+          console.error('Database Error when fetching profile:', profileError);
         }
 
         const status = profile?.status;
         const role = (profile?.role || 'guest').toUpperCase();
+        
         // Supreme Admin check for CEO, MD, OD and Generic Admin (Case-Insensitive)
         const isAdminOrExecutive = ['ADMIN', 'CEO', 'MD', 'OD'].includes(role);
         const isTeam = role === 'TEAM';
@@ -105,51 +124,85 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
         // 3. Handle Redirections based on Status
         if (status === 'pending' && pathname !== '/pending') {
           router.replace('/pending');
+          setIsLoading(false);
+          clearTimeout(safetyTimeout);
           return;
         }
 
         if (status === 'rejected') {
           router.replace('/login?error=Access Rejected');
+          setIsLoading(false);
+          clearTimeout(safetyTimeout);
           return;
         }
 
         // 4. Handle Admin Requirement (Strictly protect /admin)
         if (requireAdmin && !isAdminOrExecutive) {
           router.replace('/dashboard');
+          setIsLoading(false);
+          clearTimeout(safetyTimeout);
           return;
         }
 
         // 4b. Handle Team Requirement (Strictly protect /team)
         if (requireTeam && !isTeam && !isAdminOrExecutive) {
           router.replace('/dashboard');
+          setIsLoading(false);
+          clearTimeout(safetyTimeout);
           return;
         }
 
         // 5. If Executive is on standard dashboard, send to Admin Hub
         if (!requireAdmin && !requireTeam && isAdminOrExecutive && pathname === '/dashboard') {
           router.replace('/admin');
+          setIsLoading(false);
+          clearTimeout(safetyTimeout);
           return;
         }
 
         // 5b. If Team is on standard dashboard, send to Team Workspace
         if (!requireAdmin && !requireTeam && isTeam && pathname === '/dashboard') {
           router.replace('/team');
+          setIsLoading(false);
+          clearTimeout(safetyTimeout);
           return;
         }
 
         // All checks passed
         setAuthorized(true);
+        setIsLoading(false);
+        clearTimeout(safetyTimeout);
       } catch (err) {
         console.error('Auth check failed:', err);
-      } finally {
-        clearTimeout(safetyTimeout);
         setIsLoading(false);
+        clearTimeout(safetyTimeout);
       }
     };
 
     checkAuth();
-    return () => clearTimeout(safetyTimeout);
-  }, [router, pathname, requireAdmin]);
+
+    // 6. Listen for auth state changes to auto-handle logins and logouts
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: any, session: any) => {
+      if (!isMounted) return;
+      console.log(`AuthGuard observed event: ${event}`);
+      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        checkAuth();
+      } else if (event === 'SIGNED_OUT') {
+        setAuthorized(false);
+        setIsLoading(false);
+        clearTimeout(safetyTimeout);
+        if (pathname !== '/login' && pathname !== '/signup') {
+          router.replace(`/login?returnUrl=${encodeURIComponent(pathname)}`);
+        }
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      clearTimeout(safetyTimeout);
+      subscription.unsubscribe();
+    };
+  }, [router, pathname, requireAdmin, requireTeam]);
 
   if (isLoading) {
     return (
