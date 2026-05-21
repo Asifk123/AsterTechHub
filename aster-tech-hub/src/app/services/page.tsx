@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { safeJsonLd } from "@/lib/sanitize";
 
 export const metadata: Metadata = {
   title: "Our Services \u2013 Aster Tech Hub | Web Dev, AI, Digital Marketing & More",
@@ -36,7 +37,7 @@ export default function Services() {
       {/* JSON-LD: Service Schema (AEO) */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(servicesSchema) }}
       />
       {/* Hero Section */}
       <section className="relative min-h-[300px] md:min-h-[450px] flex items-center justify-center px-4 md:px-6 py-12 md:py-20 overflow-hidden">

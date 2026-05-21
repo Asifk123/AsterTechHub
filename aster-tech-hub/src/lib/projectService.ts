@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { sanitizeInput } from './sanitize';
 
 export const projectService = {
   // Get all projects (for Admin)
@@ -229,7 +230,7 @@ export const projectService = {
     const { data, error } = await supabase
       .from('messages')
       .update({ 
-        admin_reply: reply,
+        admin_reply: sanitizeInput(reply),
         status: 'Replied'
       })
       .eq('id', messageId)
@@ -241,10 +242,17 @@ export const projectService = {
   },
 
   async createMessage(message: any) {
+    const sanitizedMessage = {
+      ...message,
+      sender_name: sanitizeInput(message.sender_name),
+      sender_email: sanitizeInput(message.sender_email),
+      subject: sanitizeInput(message.subject),
+      content: sanitizeInput(message.content),
+    };
     try {
       const { data, error } = await supabase
         .from('messages')
-        .insert([message])
+        .insert([sanitizedMessage])
         .select();
       
       if (!error && data && data.length > 0) {
@@ -254,9 +262,9 @@ export const projectService = {
         if (error.code === '42501' || error.message?.includes('row-level security')) {
           const { error: insertError } = await supabase
             .from('messages')
-            .insert([message]);
+            .insert([sanitizedMessage]);
           if (insertError) throw insertError;
-          return { ...message, id: 'temp-message-id' };
+          return { ...sanitizedMessage, id: 'temp-message-id' };
         }
         throw error;
       }
@@ -264,9 +272,9 @@ export const projectService = {
       if (err.code === '42501' || (err.message && err.message.includes('row-level security'))) {
         const { error: insertError } = await supabase
           .from('messages')
-          .insert([message]);
+          .insert([sanitizedMessage]);
         if (insertError) throw insertError;
-        return { ...message, id: 'temp-message-id' };
+        return { ...sanitizedMessage, id: 'temp-message-id' };
       }
       throw err;
     }
@@ -283,10 +291,15 @@ export const projectService = {
   },
 
   async createReview(review: any) {
+    const sanitizedReview = {
+      ...review,
+      name: sanitizeInput(review.name),
+      review: sanitizeInput(review.review),
+    };
     try {
       const { data, error } = await supabase
         .from('reviews')
-        .insert([review])
+        .insert([sanitizedReview])
         .select();
       
       if (!error && data && data.length > 0) {
@@ -296,9 +309,9 @@ export const projectService = {
         if (error.code === '42501' || error.message?.includes('row-level security')) {
           const { error: insertError } = await supabase
             .from('reviews')
-            .insert([review]);
+            .insert([sanitizedReview]);
           if (insertError) throw insertError;
-          return { ...review, id: 'temp-review-id' };
+          return { ...sanitizedReview, id: 'temp-review-id' };
         }
         throw error;
       }
@@ -306,9 +319,9 @@ export const projectService = {
       if (err.code === '42501' || (err.message && err.message.includes('row-level security'))) {
         const { error: insertError } = await supabase
           .from('reviews')
-          .insert([review]);
+          .insert([sanitizedReview]);
         if (insertError) throw insertError;
-        return { ...review, id: 'temp-review-id' };
+        return { ...sanitizedReview, id: 'temp-review-id' };
       }
       throw err;
     }

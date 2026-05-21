@@ -681,11 +681,11 @@ export default function Dashboard() {
               </div>
               <div>
                 <label className="block text-[10px] font-headline font-bold text-on-surface-variant mb-2 uppercase tracking-widest">Project Name</label>
-                <input required type="text" value={serviceForm.projectName} onChange={(e) => setServiceForm({ ...serviceForm, projectName: e.target.value })} placeholder="e.g., E-commerce Platform" className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white placeholder-white/20 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm" />
+                <input required type="text" maxLength={100} value={serviceForm.projectName} onChange={(e) => setServiceForm({ ...serviceForm, projectName: e.target.value })} placeholder="e.g., E-commerce Platform" className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white placeholder-white/20 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm" />
               </div>
               <div>
                 <label className="block text-[10px] font-headline font-bold text-on-surface-variant mb-2 uppercase tracking-widest">Project Description</label>
-                <textarea required value={serviceForm.description} onChange={(e) => setServiceForm({ ...serviceForm, description: e.target.value })} placeholder="Describe requirements..." rows={3} className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white placeholder-white/20 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm resize-none" />
+                <textarea required maxLength={2000} value={serviceForm.description} onChange={(e) => setServiceForm({ ...serviceForm, description: e.target.value })} placeholder="Describe requirements..." rows={3} className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white placeholder-white/20 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm resize-none" />
               </div>
               <div className="flex gap-3 pt-4 border-t border-white/5 mt-6">
                 <button type="button" onClick={() => setShowServiceModal(false)} className="flex-1 py-3 rounded-xl bg-surface-container-low text-on-surface font-headline font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition-all border border-white/5">Cancel</button>
@@ -706,7 +706,7 @@ export default function Dashboard() {
             <form onSubmit={handleSubmitReview} className="space-y-5">
               <div>
                 <label className="block text-[10px] font-headline font-bold text-on-surface-variant mb-2 uppercase tracking-widest">Your Name</label>
-                <input required type="text" value={reviewForm.name} onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })} placeholder="John Doe" className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white placeholder-white/20 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm" />
+                <input required type="text" maxLength={100} value={reviewForm.name} onChange={(e) => setReviewForm({ ...reviewForm, name: e.target.value })} placeholder="John Doe" className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white placeholder-white/20 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm" />
               </div>
               <div>
                 <label className="block text-[10px] font-headline font-bold text-on-surface-variant mb-2 uppercase tracking-widest">Rating</label>
@@ -726,7 +726,7 @@ export default function Dashboard() {
               </div>
               <div>
                 <label className="block text-[10px] font-headline font-bold text-on-surface-variant mb-2 uppercase tracking-widest">Your Review</label>
-                <textarea required value={reviewForm.review} onChange={(e) => setReviewForm({ ...reviewForm, review: e.target.value })} placeholder="Share your experience..." rows={4} className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white placeholder-white/20 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm resize-none" />
+                <textarea required maxLength={1000} value={reviewForm.review} onChange={(e) => setReviewForm({ ...reviewForm, review: e.target.value })} placeholder="Share your experience..." rows={4} className="w-full px-4 py-3 rounded-xl bg-surface-container-low border border-white/10 text-white placeholder-white/20 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all text-sm resize-none" />
               </div>
               <div className="flex gap-3 pt-6 border-t border-white/5 mt-4">
                 <button type="button" onClick={() => setShowReviewModal(false)} className="flex-1 py-3 rounded-xl bg-surface-container-low text-on-surface font-headline font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition-all border border-white/5">Cancel</button>

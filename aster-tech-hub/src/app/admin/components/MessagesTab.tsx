@@ -300,6 +300,7 @@ export default function MessagesTab() {
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     placeholder="Type your response to the client..."
+                    maxLength={2000}
                     rows={3}
                     className="w-full p-3 rounded-lg bg-surface-container-low border border-white/10 text-sm text-white focus:border-primary/50 outline-none resize-none transition-colors"
                   />
@@ -374,15 +375,15 @@ export default function MessagesTab() {
             <form onSubmit={handleSendMessage} className="space-y-5">
               <div>
                 <label className="block text-xs font-headline mb-1.5 text-on-surface-variant uppercase tracking-wider">To</label>
-                <input required type="text" value={newMessage.to} onChange={e => setNewMessage({...newMessage, to: e.target.value})} className="w-full p-3 rounded-lg bg-surface-container-low border border-white/10 focus:border-primary/50 outline-none text-sm transition-colors text-white" placeholder="Recipient email" />
+                <input required type="text" maxLength={100} value={newMessage.to} onChange={e => setNewMessage({...newMessage, to: e.target.value})} className="w-full p-3 rounded-lg bg-surface-container-low border border-white/10 focus:border-primary/50 outline-none text-sm transition-colors text-white" placeholder="Recipient email" />
               </div>
               <div>
                 <label className="block text-xs font-headline mb-1.5 text-on-surface-variant uppercase tracking-wider">Subject</label>
-                <input required type="text" value={newMessage.subject} onChange={e => setNewMessage({...newMessage, subject: e.target.value})} className="w-full p-3 rounded-lg bg-surface-container-low border border-white/10 focus:border-primary/50 outline-none text-sm transition-colors text-white" placeholder="Subject" />
+                <input required type="text" maxLength={100} value={newMessage.subject} onChange={e => setNewMessage({...newMessage, subject: e.target.value})} className="w-full p-3 rounded-lg bg-surface-container-low border border-white/10 focus:border-primary/50 outline-none text-sm transition-colors text-white" placeholder="Subject" />
               </div>
               <div>
                 <label className="block text-xs font-headline mb-1.5 text-on-surface-variant uppercase tracking-wider">Message</label>
-                <textarea required value={newMessage.body} onChange={e => setNewMessage({...newMessage, body: e.target.value})} className="w-full p-3 rounded-lg bg-surface-container-low border border-white/10 focus:border-primary/50 outline-none text-sm transition-colors text-white resize-none" rows={4} placeholder="Type your message here..." />
+                <textarea required maxLength={2000} value={newMessage.body} onChange={e => setNewMessage({...newMessage, body: e.target.value})} className="w-full p-3 rounded-lg bg-surface-container-low border border-white/10 focus:border-primary/50 outline-none text-sm transition-colors text-white resize-none" rows={4} placeholder="Type your message here..." />
               </div>
               
               <div className="flex gap-3 pt-6 border-t border-white/5 mt-6">

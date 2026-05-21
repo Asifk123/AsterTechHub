@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { projectService } from "@/lib/projectService";
 import { reviews as mockReviews, reviewStats as stats, featuredReview } from "@/lib/mockData";
+import { safeJsonLd } from "@/lib/sanitize";
 
 export default function Reviews() {
   const [reviews, setReviews] = useState<any[]>([]);
@@ -109,7 +110,7 @@ export default function Reviews() {
       {/* JSON-LD: Reviews & AggregateRating Schema (AEO - Rich Snippets) */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(reviewsSchema) }}
       />
       
       {/* Notification Toast */}
@@ -293,6 +294,7 @@ export default function Reviews() {
                     name="reviewer-name"
                     required 
                     type="text" 
+                    maxLength={100}
                     value={newReview.name} 
                     onChange={e => setNewReview({...newReview, name: e.target.value})} 
                     className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-primary/50 focus:outline-none transition-all text-sm" 
@@ -306,6 +308,7 @@ export default function Reviews() {
                     name="reviewer-company"
                     required 
                     type="text" 
+                    maxLength={100}
                     value={newReview.company} 
                     onChange={e => setNewReview({...newReview, company: e.target.value})} 
                     className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-primary/50 focus:outline-none transition-all text-sm" 
@@ -321,6 +324,7 @@ export default function Reviews() {
                   name="reviewer-role"
                   required 
                   type="text" 
+                  maxLength={100}
                   value={newReview.role} 
                   onChange={e => setNewReview({...newReview, role: e.target.value})} 
                   className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-primary/50 focus:outline-none transition-all text-sm" 

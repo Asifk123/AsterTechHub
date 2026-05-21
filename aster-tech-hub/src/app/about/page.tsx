@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { safeJsonLd } from "@/lib/sanitize";
 
 export const metadata: Metadata = {
   title: "About Us – Aster Tech Hub | Our Story, Team & Values",
@@ -48,7 +49,7 @@ export default function About() {
       {/* JSON-LD: AboutPage + Organization + Founders Schema (AEO/GEO) */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(aboutSchema) }}
       />
       <div className="min-h-screen bg-background">
       {/* Hero Section */}

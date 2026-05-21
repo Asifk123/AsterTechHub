@@ -267,6 +267,7 @@ export default function Tickets() {
                 <input
                   type="text"
                   placeholder="Brief summary of your issue"
+                  maxLength={100}
                   value={newTicket.subject}
                   onChange={(e) => setNewTicket({ ...newTicket, subject: e.target.value })}
                   className="w-full p-4 rounded-lg bg-surface-container-low border border-white/5 text-on-surface placeholder:text-on-surface-variant/50 focus:border-[#00D4FF]/50 focus:outline-none transition-colors"
@@ -280,6 +281,7 @@ export default function Tickets() {
                 <textarea
                   rows={4}
                   placeholder="Describe your issue in detail..."
+                  maxLength={2000}
                   value={newTicket.description}
                   onChange={(e) => setNewTicket({ ...newTicket, description: e.target.value })}
                   className="w-full p-4 rounded-lg bg-surface-container-low border border-white/5 text-on-surface placeholder:text-on-surface-variant/50 focus:border-[#00D4FF]/50 focus:outline-none transition-colors resize-none"

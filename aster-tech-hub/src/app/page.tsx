@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import AnimatedStats from "@/components/AnimatedStats";
 import type { Metadata } from "next";
+import { safeJsonLd } from "@/lib/sanitize";
 
 export const metadata: Metadata = {
   title: "Aster Tech Hub | Empower Your Business With Innovative IT Solutions",
@@ -51,7 +52,7 @@ export default function Home() {
       {/* JSON-LD: WebSite + Organization Schema (SEO/AEO/GEO) */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(homeSchema) }}
       />
 
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">

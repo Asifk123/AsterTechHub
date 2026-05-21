@@ -179,6 +179,7 @@ export default function Consultation() {
                       id="full-name"
                       name="full-name"
                       type="text"
+                      maxLength={100}
                       value={formData.name}
                       onChange={(e) => updateForm('name', e.target.value)}
                       placeholder="e.g. John Doe"
@@ -192,6 +193,7 @@ export default function Consultation() {
                         id="email-address"
                         name="email-address"
                         type="email"
+                        maxLength={100}
                         value={formData.email}
                         onChange={(e) => updateForm('email', e.target.value)}
                         placeholder="john@example.com"
@@ -204,6 +206,7 @@ export default function Consultation() {
                         id="phone-number"
                         name="phone-number"
                         type="tel"
+                        maxLength={20}
                         value={formData.phone}
                         onChange={(e) => updateForm('phone', e.target.value)}
                         placeholder="+91 XXXXX XXXXX"
@@ -273,8 +276,14 @@ export default function Consultation() {
                             id="custom-budget"
                             name="custom-budget"
                             type="number"
+                            maxLength={10}
                             value={formData.customBudget}
-                            onChange={(e) => updateForm('customBudget', e.target.value)}
+                            onChange={(e) => {
+                              // Restrict budget text length to 10 digits
+                              if (e.target.value.length <= 10) {
+                                updateForm('customBudget', e.target.value);
+                              }
+                            }}
                             placeholder="Enter your budget"
                             className="w-full pl-8 pr-4 py-4 rounded-xl bg-background/50 border border-secondary/30 text-white placeholder:text-white/20 focus:border-secondary focus:outline-none transition-all"
                           />
@@ -293,6 +302,7 @@ export default function Consultation() {
                   <textarea
                     id="project-description"
                     name="project-description"
+                    maxLength={2000}
                     value={formData.message}
                     onChange={(e) => updateForm('message', e.target.value)}
                     rows={6}
