@@ -500,5 +500,14 @@ export const projectService = {
       .select();
     if (error) throw error;
     return data[0];
+  },
+  
+  async deleteInvoice(id: string) {
+    const { error } = await supabase
+      .from('invoices')
+      .delete()
+      .eq('id', id);
+    if (error) throw error;
+    return true;
   }
 };

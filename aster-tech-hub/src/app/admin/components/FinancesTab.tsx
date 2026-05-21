@@ -13,6 +13,7 @@ export default function FinancesTab() {
     amount: "",
     status: "Pending",
   });
+  const [deleteConfirm, setDeleteConfirm] = useState<{show: boolean, id: string | null}>({show: false, id: null});
 
   useEffect(() => {
     fetchInvoices();
@@ -88,6 +89,18 @@ export default function FinancesTab() {
       showNotify(`Invoice status updated to ${nextStatus}`);
     } catch (error) {
       showNotify("Failed to update status.", 'error');
+    }
+  };
+
+  const handleDeleteInvoice = async (id: string) => {
+    try {
+      await projectService.deleteInvoice(id);
+      setDeleteConfirm({show: false, id: null});
+      showNotify("Invoice deleted successfully.");
+      fetchInvoices();
+    } catch (error) {
+      console.error("Error deleting invoice:", error);
+      showNotify("Failed to delete invoice.", "error");
     }
   };
 
@@ -196,13 +209,21 @@ export default function FinancesTab() {
                     </button>
                   </td>
                   <td className="py-4 text-[10px] text-on-surface-variant font-bold uppercase tracking-tighter">{invoice.date}</td>
-                  <td className="py-4 text-center">
-                    <button 
-                      onClick={() => setSelectedInvoice(invoice)}
-                      className="text-xs text-on-surface-variant hover:text-primary font-bold uppercase tracking-widest transition-colors flex items-center gap-1 mx-auto"
-                    >
-                      <span className="material-symbols-outlined text-sm">visibility</span> View
-                    </button>
+                  <td className="py-4">
+                    <div className="flex items-center justify-center gap-3">
+                      <button 
+                        onClick={() => setSelectedInvoice(invoice)}
+                        className="text-xs text-on-surface-variant hover:text-primary font-bold uppercase tracking-widest transition-colors flex items-center gap-1"
+                      >
+                        <span className="material-symbols-outlined text-sm">visibility</span> View
+                      </button>
+                      <button 
+                        onClick={() => setDeleteConfirm({show: true, id: invoice.id})}
+                        className="text-xs text-red-400 hover:text-red-500 font-bold uppercase tracking-widest transition-colors flex items-center gap-1"
+                      >
+                        <span className="material-symbols-outlined text-sm">delete</span> Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -230,14 +251,22 @@ export default function FinancesTab() {
                   <p className="text-xs font-bold text-white mb-1">{invoice.client}</p>
                   <p className="text-[9px] text-on-surface-variant uppercase tracking-widest">{invoice.date}</p>
                 </div>
-                <div className="text-right">
+                <div className="text-right flex flex-col items-end gap-1.5">
                   <p className="text-sm font-black text-white">₹{(invoice.amount || 0).toLocaleString()}</p>
-                  <button 
-                    onClick={() => setSelectedInvoice(invoice)}
-                    className="text-[9px] text-primary font-bold uppercase tracking-widest mt-1"
-                  >
-                    View Details
-                  </button>
+                  <div className="flex gap-3">
+                    <button 
+                      onClick={() => setSelectedInvoice(invoice)}
+                      className="text-[9px] text-primary font-bold uppercase tracking-widest"
+                    >
+                      View Details
+                    </button>
+                    <button 
+                      onClick={() => setDeleteConfirm({show: true, id: invoice.id})}
+                      className="text-[9px] text-red-400 font-bold uppercase tracking-widest"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -343,6 +372,35 @@ export default function FinancesTab() {
                 <button type="submit" className="flex-1 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold text-xs uppercase tracking-widest shadow-lg hover:scale-[1.02] transition-all">Create</button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirm.show && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md px-4 animate-in fade-in duration-300">
+          <div className="glass-panel rounded-2xl p-8 w-full max-w-sm border border-red-500/30 shadow-[0_0_50px_rgba(239,68,68,0.2)] text-center">
+            <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span className="material-symbols-outlined text-3xl text-red-500">delete_forever</span>
+            </div>
+            <h3 className="text-xl font-headline font-bold mb-2 text-white">Delete Invoice?</h3>
+            <p className="text-sm text-on-surface-variant mb-8 leading-relaxed">
+              Are you sure you want to delete invoice <span className="text-primary font-bold">{deleteConfirm.id}</span>? This action cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setDeleteConfirm({show: false, id: null})}
+                className="flex-1 py-3 rounded-xl bg-surface-container-low text-on-surface font-headline font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition-all border border-white/5"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => deleteConfirm.id && handleDeleteInvoice(deleteConfirm.id)}
+                className="flex-1 py-3 rounded-xl bg-red-500 text-white font-headline font-bold text-xs uppercase tracking-widest hover:bg-red-600 transition-all shadow-lg shadow-red-500/20"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

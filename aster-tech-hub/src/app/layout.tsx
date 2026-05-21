@@ -6,7 +6,7 @@ import CookieConsent from "@/components/CookieConsent";
 import VisitorTracker from "@/components/VisitorTracker";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://astertechhub.com'),
+  metadataBase: new URL('https://www.astertechhub.in'),
   title: {
     default: "Aster Tech Hub | Empower Your Business",
     template: "%s | Aster Tech Hub"
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://astertechhub.com",
+    url: "https://www.astertechhub.in",
     siteName: "Aster Tech Hub",
     title: "Aster Tech Hub | Empower Your Business",
     description: "Pioneering the next generation of digital infrastructure and IT services.",

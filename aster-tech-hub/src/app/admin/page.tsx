@@ -235,7 +235,7 @@ export default function AdminPanel() {
                     className="fixed inset-0 z-10" 
                     onClick={() => setShowNotifications(false)}
                   ></div>
-                  <div className="absolute right-0 mt-2 w-80 bg-[#131318] rounded-2xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.8)] z-20 py-2 overflow-hidden animate-in fade-in zoom-in duration-200">
+                  <div className="fixed sm:absolute left-4 right-4 sm:left-auto sm:right-0 top-20 sm:top-auto sm:w-80 w-auto mt-2 bg-[#131318] rounded-2xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.8)] z-20 py-2 overflow-hidden animate-in fade-in zoom-in duration-200">
                     <div className="px-4 py-2 border-b border-white/5 flex justify-between items-center">
                       <span className="text-xs font-headline font-bold uppercase tracking-widest text-primary">Notifications</span>
                       <button 
