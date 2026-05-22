@@ -83,10 +83,59 @@ export default function AdminPanel() {
         });
       });
 
-      setNotifications(combined);
-      setHasNew(combined.length > 0);
+      let readIds: string[] = [];
+      if (typeof window !== 'undefined') {
+        try {
+          readIds = JSON.parse(localStorage.getItem('read_notifications') || '[]');
+        } catch (e) {
+          console.error("Error reading localStorage:", e);
+        }
+      }
+
+      const unread = combined.filter((n: any) => !readIds.includes(n.id));
+      setNotifications(unread);
+      setHasNew(unread.length > 0);
     } catch (error) {
       console.error("Error fetching notifications:", error);
+    }
+  };
+
+  const handleMarkAllRead = () => {
+    const readIds = notifications.map((n: any) => n.id);
+    setNotifications([]);
+    setHasNew(false);
+    
+    if (typeof window !== 'undefined') {
+      try {
+        const existingRead = JSON.parse(localStorage.getItem('read_notifications') || '[]');
+        const updatedRead = Array.from(new Set([...existingRead, ...readIds]));
+        localStorage.setItem('read_notifications', JSON.stringify(updatedRead));
+      } catch (e) {
+        console.error("Error saving read notifications:", e);
+      }
+    }
+  };
+
+  const handleNotificationClick = (n: any) => {
+    if (typeof window !== 'undefined') {
+      try {
+        const existingRead = JSON.parse(localStorage.getItem('read_notifications') || '[]');
+        const updatedRead = Array.from(new Set([...existingRead, n.id]));
+        localStorage.setItem('read_notifications', JSON.stringify(updatedRead));
+      } catch (e) {
+        console.error("Error saving read notification:", e);
+      }
+    }
+
+    setNotifications(prev => prev.filter(item => item.id !== n.id));
+    setShowNotifications(false);
+
+    if (n.type === 'message') {
+      setActiveTab('messages');
+    } else if (n.type === 'member') {
+      setActiveTab('team');
+    } else if (n.type === 'project') {
+      setActiveTab('projects');
     }
   };
 
@@ -239,24 +288,35 @@ export default function AdminPanel() {
                     <div className="px-4 py-2 border-b border-white/5 flex justify-between items-center">
                       <span className="text-xs font-headline font-bold uppercase tracking-widest text-primary">Notifications</span>
                       <button 
-                        onClick={() => { setNotifications([]); setHasNew(false); }}
+                        onClick={handleMarkAllRead}
                         className="text-[10px] text-on-surface-variant hover:text-white uppercase tracking-tighter"
                       >
                         Mark all read
                       </button>
                     </div>
                     <div className="max-h-96 overflow-y-auto">
-                      {notifications.map(n => (
-                        <div key={n.id} className="px-4 py-3 hover:bg-white/5 transition-colors cursor-pointer border-b border-white/5 last:border-0 flex gap-3">
-                          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                            <span className="material-symbols-outlined text-sm text-primary">{n.icon}</span>
-                          </div>
-                          <div>
-                            <p className="text-xs text-on-surface leading-tight mb-1">{n.text}</p>
-                            <span className="text-[10px] text-on-surface-variant">{n.time}</span>
-                          </div>
+                      {notifications.length === 0 ? (
+                        <div className="px-4 py-6 text-center text-on-surface-variant">
+                          <span className="material-symbols-outlined text-3xl opacity-40 mb-1">notifications_off</span>
+                          <p className="text-xs">No new notifications</p>
                         </div>
-                      ))}
+                      ) : (
+                        notifications.map(n => (
+                          <div 
+                            key={n.id} 
+                            onClick={() => handleNotificationClick(n)}
+                            className="px-4 py-3 hover:bg-white/5 transition-colors cursor-pointer border-b border-white/5 last:border-0 flex gap-3"
+                          >
+                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                              <span className="material-symbols-outlined text-sm text-primary">{n.icon}</span>
+                            </div>
+                            <div>
+                              <p className="text-xs text-on-surface leading-tight mb-1">{n.text}</p>
+                              <span className="text-[10px] text-on-surface-variant">{n.time}</span>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                     <button 
                       onClick={() => { setActiveTab('messages'); setShowNotifications(false); }}
