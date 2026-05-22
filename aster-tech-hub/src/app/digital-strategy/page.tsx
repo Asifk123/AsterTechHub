@@ -341,7 +341,7 @@ export default function DigitalStrategy() {
             <span className="text-green-400 font-headline text-xs tracking-[0.3em] uppercase mb-4 block">Our Process</span>
             <h2 className="text-3xl md:text-4xl font-headline font-bold tracking-tight">How We Work</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch">
             {[
               { step: "01", title: "Discovery", desc: "Understanding your business goals and challenges", icon: "search" },
               { step: "02", title: "Strategy", desc: "Building a customized digital roadmap", icon: "route" },
@@ -349,13 +349,13 @@ export default function DigitalStrategy() {
               { step: "04", title: "Monitoring", desc: "Tracking performance and gathering data", icon: "monitoring" },
               { step: "05", title: "Optimization", desc: "Continuous improvement based on insights", icon: "trending_up" },
             ].map((item) => (
-              <div key={item.step} className="relative group">
+              <div key={item.step} className="relative group flex flex-col h-full">
                 <div className="absolute -inset-4 bg-green-400/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative overflow-hidden rounded-xl border border-green-400/20 glass-panel p-6 text-center hover:border-green-400/40 transition-colors">
+                <div className="relative flex-1 overflow-hidden rounded-xl border border-green-400/20 glass-panel p-6 text-center hover:border-green-400/40 transition-colors flex flex-col items-center">
                   <span className="material-symbols-outlined text-4xl text-green-400 mb-4 block">{item.icon}</span>
                   <div className="text-xs text-green-400 font-headline tracking-widest mb-2">{item.step}</div>
                   <h3 className="text-lg font-headline font-bold mb-2">{item.title}</h3>
-                  <p className="text-xs text-on-surface-variant">{item.desc}</p>
+                  <p className="text-xs text-on-surface-variant mt-auto">{item.desc}</p>
                 </div>
               </div>
             ))}

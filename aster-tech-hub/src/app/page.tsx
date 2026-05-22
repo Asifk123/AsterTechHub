@@ -55,7 +55,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: safeJsonLd(homeSchema) }}
       />
 
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-28 md:pb-36">
         {/* Ambient Background */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/10 rounded-full blur-[120px]"></div>
@@ -110,7 +110,7 @@ export default function Home() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+        <div className="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 [@media(max-height:780px)]:hidden">
           <span className="text-[10px] font-headline uppercase tracking-widest text-on-surface-variant opacity-50">
             Discovery
           </span>
