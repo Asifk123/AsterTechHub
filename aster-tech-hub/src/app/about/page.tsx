@@ -85,11 +85,11 @@ export default function About() {
           <div className="glass-panel rounded-xl p-8">
             <div className="grid grid-cols-2 gap-6">
               <div className="text-center">
-                <div className="text-4xl font-headline text-primary mb-2">20+</div>
+                <div className="text-4xl font-headline text-primary mb-2">50+</div>
                 <div className="text-sm text-on-surface-variant">Projects Delivered</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-headline text-secondary mb-2">20+</div>
+                <div className="text-4xl font-headline text-secondary mb-2">45+</div>
                 <div className="text-sm text-on-surface-variant">Happy Clients</div>
               </div>
               <div className="text-center">
