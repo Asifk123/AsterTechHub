@@ -456,7 +456,9 @@ export const projectService = {
       this.getInvoices(),
       this.getVisitStats(),
       // Fetch Approved Clients from Profiles
-      supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'client').eq('status', 'approved')
+      supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'client').eq('status', 'approved'),
+      // Fetch Pending Profiles!
+      supabase.from('profiles').select('*').eq('status', 'pending')
     ]);
 
     const stats = {
@@ -467,8 +469,11 @@ export const projectService = {
       invoices: results[4].status === 'fulfilled' ? results[4].value : [],
       visits: results[5].status === 'fulfilled' ? results[5].value : 0,
       clientCount: results[6].status === 'fulfilled' ? (results[6].value as any).count : 0,
-      pendingCount: (await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('status', 'pending')).count || 0
+      pendingProfiles: results[7].status === 'fulfilled' ? (results[7].value as any).data || [] : [],
+      pendingCount: 0
     };
+
+    stats.pendingCount = stats.pendingProfiles.length;
 
     return stats;
   },

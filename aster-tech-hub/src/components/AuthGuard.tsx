@@ -18,6 +18,7 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
 
   useEffect(() => {
     let isMounted = true;
+    let hasSession = false;
 
     // Safety timeout: Guarantee that the loader is dismissed after 3.5 seconds
     const safetyTimeout = setTimeout(() => {
@@ -29,12 +30,15 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
         const hasLocalSession = typeof window !== 'undefined' && 
           Object.keys(localStorage).some(key => key.startsWith('sb-') && key.endsWith('-auth-token'));
         
-        if (hasLocalSession) {
-          console.log("Found local session in localStorage during safety timeout, soft authorizing...");
+        const hasCookieSession = typeof document !== 'undefined' && 
+          document.cookie.split(';').some(item => item.trim().startsWith('sb-') && item.includes('auth-token'));
+        
+        if (hasSession || hasLocalSession || hasCookieSession) {
+          console.log("Found session trace during safety timeout, soft authorizing...");
           setAuthorized(true);
           setIsLoading(false);
         } else {
-          console.warn("No local session found during safety timeout, redirecting to login...");
+          console.warn("No session trace found during safety timeout, redirecting to login...");
           if (pathname !== '/login' && pathname !== '/signup') {
             router.replace(`/login?returnUrl=${encodeURIComponent(pathname)}`);
           }
@@ -60,6 +64,8 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
           setIsLoading(false);
           return;
         }
+
+        hasSession = true;
 
         // HARDCODED BYPASS & SELF-HEALING FOR CEO
         if (session.user.email === 'samasif582@gmail.com') {
@@ -102,11 +108,39 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
         }
 
         // 2. Check Profile Status & Role
-        const { data: profile, error: profileError } = await supabase
+        let { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('role, status')
           .eq('id', session.user.id)
           .single();
+
+        if (profileError && profileError.code === 'PGRST116') {
+          try {
+            console.log("Profile record missing. Attempting self-healing insert for new signup...");
+            const fullName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'New User';
+            const { data: newProfile, error: insertError } = await supabase
+              .from('profiles')
+              .insert([{
+                id: session.user.id,
+                full_name: fullName,
+                email: session.user.email,
+                role: 'client',
+                status: 'pending'
+              }])
+              .select('role, status')
+              .single();
+
+            if (insertError) {
+              console.error("Self-healing profile insert failed:", insertError);
+            } else if (newProfile) {
+              profile = newProfile;
+              profileError = null;
+              console.log("Self-healed profile successfully created:", profile);
+            }
+          } catch (insertErr) {
+            console.error("Crash during self-healing profile insert:", insertErr);
+          }
+        }
 
         if (!isMounted) return;
 

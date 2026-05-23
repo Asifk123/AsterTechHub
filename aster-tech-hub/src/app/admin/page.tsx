@@ -31,6 +31,7 @@ export default function AdminPanel() {
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, () => fetchNotifications())
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'projects' }, () => fetchNotifications())
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'team_members' }, () => fetchNotifications())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => fetchNotifications())
       .subscribe();
 
     return () => {
@@ -58,6 +59,17 @@ export default function AdminPanel() {
           time: new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           icon: "mail",
           type: "message"
+        });
+      });
+
+      // New Registration Requests (Pending Approval)
+      (stats.pendingProfiles || []).slice(0, 3).forEach((p: any) => {
+        combined.push({
+          id: `profile-${p.id}`,
+          text: `New registration: ${p.full_name || p.email}`,
+          time: "Pending Approval",
+          icon: "person_pin",
+          type: "pending_profile"
         });
       });
 
@@ -136,6 +148,8 @@ export default function AdminPanel() {
       setActiveTab('team');
     } else if (n.type === 'project') {
       setActiveTab('projects');
+    } else if (n.type === 'pending_profile') {
+      setActiveTab('access');
     }
   };
 
