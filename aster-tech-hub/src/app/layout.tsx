@@ -65,6 +65,55 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://www.astertechhub.in/#organization",
+                  "name": "Aster Tech Hub",
+                  "url": "https://www.astertechhub.in",
+                  "logo": {
+                    "@type": "ImageObject",
+                    "@id": "https://www.astertechhub.in/#logo",
+                    "url": "https://www.astertechhub.in/favicon.png",
+                    "caption": "Aster Tech Hub Logo"
+                  },
+                  "image": {
+                    "@id": "https://www.astertechhub.in/#logo"
+                  },
+                  "description": "IT Services | Digital Marketing | Innovation Hub - Pioneering the next generation of digital infrastructure from Davangere, Karnataka, India.",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Davangere",
+                    "addressRegion": "Karnataka",
+                    "addressCountry": "IN"
+                  },
+                  "contactPoint": {
+                    "@type": "ContactPoint",
+                    "contactType": "customer support",
+                    "email": "info@astertechhub.in"
+                  }
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://www.astertechhub.in/#website",
+                  "url": "https://www.astertechhub.in",
+                  "name": "Aster Tech Hub",
+                  "description": "Pioneering the next generation of digital infrastructure and IT services.",
+                  "publisher": {
+                    "@id": "https://www.astertechhub.in/#organization"
+                  }
+                }
+              ]
+            })
+          }}
+        />
+      </head>
       <body className="bg-background text-on-surface font-body antialiased selection:bg-primary/30 min-h-screen flex flex-col">
         {/* Navbar - Fixed at top */}
         <Navbar />

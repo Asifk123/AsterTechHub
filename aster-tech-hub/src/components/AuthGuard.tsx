@@ -12,6 +12,7 @@ interface AuthGuardProps {
 
 export default function AuthGuard({ children, requireAdmin = false, requireTeam = false }: AuthGuardProps) {
   const [isLoading, setIsLoading] = useState(true);
+  const [isTakingLong, setIsTakingLong] = useState(false);
   const [authorized, setAuthorized] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -20,34 +21,20 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
     let isMounted = true;
     let hasSession = false;
 
-    // Safety timeout: Guarantee that the loader is dismissed after 3.5 seconds
+    const progressTimeout = setTimeout(() => {
+      if (isMounted) setIsTakingLong(true);
+    }, 3000);
+
+    // Safety timeout: Guarantee that the loader is dismissed after 8 seconds and redirect to login
     const safetyTimeout = setTimeout(() => {
       if (!isMounted) return;
-      console.warn("Auth check safety timeout triggered. Attempting recovery...");
-      
-      // Fallback: Check if there's any trace of a local session
-      try {
-        const hasLocalSession = typeof window !== 'undefined' && 
-          Object.keys(localStorage).some(key => key.startsWith('sb-') && key.endsWith('-auth-token'));
-        
-        const hasCookieSession = typeof document !== 'undefined' && 
-          document.cookie.split(';').some(item => item.trim().startsWith('sb-') && item.includes('auth-token'));
-        
-        if (hasSession || hasLocalSession || hasCookieSession) {
-          console.log("Found session trace during safety timeout, soft authorizing...");
-          setAuthorized(true);
-          setIsLoading(false);
-        } else {
-          console.warn("No session trace found during safety timeout, redirecting to login...");
-          if (pathname !== '/login' && pathname !== '/signup') {
-            router.replace(`/login?returnUrl=${encodeURIComponent(pathname)}`);
-          }
-          setIsLoading(false);
-        }
-      } catch (e) {
+      console.warn("Auth check safety timeout triggered. Redirecting to login...");
+      if (pathname !== '/login' && pathname !== '/signup') {
+        router.replace(`/login?error=timeout&returnUrl=${encodeURIComponent(pathname)}`);
+      } else {
         setIsLoading(false);
       }
-    }, 3500);
+    }, 8000);
 
     const checkAuth = async () => {
       try {
@@ -62,6 +49,8 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
             router.replace(`/login?returnUrl=${encodeURIComponent(pathname)}`);
           }
           setIsLoading(false);
+          clearTimeout(progressTimeout);
+          clearTimeout(safetyTimeout);
           return;
         }
 
@@ -99,10 +88,13 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
 
           if (!requireAdmin && !requireTeam && pathname === '/dashboard') {
             router.replace('/admin');
+            clearTimeout(progressTimeout);
+            clearTimeout(safetyTimeout);
             return;
           }
           setAuthorized(true);
           setIsLoading(false);
+          clearTimeout(progressTimeout);
           clearTimeout(safetyTimeout);
           return;
         }
@@ -148,8 +140,12 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
           console.error('Database Error when fetching profile:', profileError);
         }
 
-        const status = profile?.status;
-        const role = (profile?.role || 'guest').toUpperCase();
+        if (!profile) {
+          throw new Error("User profile not found");
+        }
+
+        const status = profile.status;
+        const role = (profile.role || 'guest').toUpperCase();
         
         // Supreme Admin check for CEO, MD, OD and Generic Admin (Case-Insensitive)
         const isAdminOrExecutive = ['ADMIN', 'CEO', 'MD', 'OD'].includes(role);
@@ -159,6 +155,7 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
         if (status === 'pending' && pathname !== '/pending') {
           router.replace('/pending');
           setIsLoading(false);
+          clearTimeout(progressTimeout);
           clearTimeout(safetyTimeout);
           return;
         }
@@ -166,6 +163,7 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
         if (status === 'rejected') {
           router.replace('/login?error=Access Rejected');
           setIsLoading(false);
+          clearTimeout(progressTimeout);
           clearTimeout(safetyTimeout);
           return;
         }
@@ -174,6 +172,7 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
         if (requireAdmin && !isAdminOrExecutive) {
           router.replace('/dashboard');
           setIsLoading(false);
+          clearTimeout(progressTimeout);
           clearTimeout(safetyTimeout);
           return;
         }
@@ -182,6 +181,7 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
         if (requireTeam && !isTeam && !isAdminOrExecutive) {
           router.replace('/dashboard');
           setIsLoading(false);
+          clearTimeout(progressTimeout);
           clearTimeout(safetyTimeout);
           return;
         }
@@ -190,6 +190,7 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
         if (!requireAdmin && !requireTeam && isAdminOrExecutive && pathname === '/dashboard') {
           router.replace('/admin');
           setIsLoading(false);
+          clearTimeout(progressTimeout);
           clearTimeout(safetyTimeout);
           return;
         }
@@ -198,6 +199,7 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
         if (!requireAdmin && !requireTeam && isTeam && pathname === '/dashboard') {
           router.replace('/team');
           setIsLoading(false);
+          clearTimeout(progressTimeout);
           clearTimeout(safetyTimeout);
           return;
         }
@@ -205,11 +207,17 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
         // All checks passed
         setAuthorized(true);
         setIsLoading(false);
+        clearTimeout(progressTimeout);
         clearTimeout(safetyTimeout);
       } catch (err) {
         console.error('Auth check failed:', err);
-        setIsLoading(false);
+        clearTimeout(progressTimeout);
         clearTimeout(safetyTimeout);
+        if (pathname !== '/login' && pathname !== '/signup') {
+          router.replace(`/login?error=auth_failed&returnUrl=${encodeURIComponent(pathname)}`);
+        } else {
+          setIsLoading(false);
+        }
       }
     };
 
@@ -224,6 +232,7 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
       } else if (event === 'SIGNED_OUT') {
         setAuthorized(false);
         setIsLoading(false);
+        clearTimeout(progressTimeout);
         clearTimeout(safetyTimeout);
         if (pathname !== '/login' && pathname !== '/signup') {
           router.replace(`/login?returnUrl=${encodeURIComponent(pathname)}`);
@@ -233,6 +242,7 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
 
     return () => {
       isMounted = false;
+      clearTimeout(progressTimeout);
       clearTimeout(safetyTimeout);
       subscription.unsubscribe();
     };
@@ -243,6 +253,11 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
       <div className="fixed inset-0 bg-background flex flex-col items-center justify-center z-[9999]">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
         <p className="text-muted-foreground animate-pulse font-medium">Verifying Credentials...</p>
+        {isTakingLong && (
+          <p className="text-xs text-muted-foreground/80 mt-2 animate-pulse font-medium">
+            Checking profile state, this is taking longer than usual...
+          </p>
+        )}
       </div>
     );
   }

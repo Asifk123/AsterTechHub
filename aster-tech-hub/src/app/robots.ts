@@ -8,6 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       disallow: [
         '/admin',
         '/dashboard',
+        '/pending',
         '/pending-verification',
         '/reset-password',
         '/forgot-password',

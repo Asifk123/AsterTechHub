@@ -26,6 +26,11 @@ export default function AdminPanel() {
   useEffect(() => {
     fetchNotifications();
 
+    // 15-second polling fallback for reliability on all devices
+    const pollInterval = setInterval(() => {
+      fetchNotifications();
+    }, 15000);
+
     const subscription = supabase
       .channel('header-notifications')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, () => fetchNotifications())
@@ -35,6 +40,7 @@ export default function AdminPanel() {
       .subscribe();
 
     return () => {
+      clearInterval(pollInterval);
       supabase.removeChannel(subscription);
     };
   }, []);

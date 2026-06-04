@@ -33,6 +33,11 @@ export default function OverviewTab({ setActiveTab }: OverviewTabProps) {
     setIsMounted(true);
     fetchStats();
 
+    // 20-second polling fallback for dashboard metrics
+    const pollInterval = setInterval(() => {
+      fetchStats();
+    }, 20000);
+
     const subscription = supabase
       .channel('overview-sync')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, () => fetchStats())
@@ -43,6 +48,7 @@ export default function OverviewTab({ setActiveTab }: OverviewTabProps) {
       .subscribe();
 
     return () => {
+      clearInterval(pollInterval);
       supabase.removeChannel(subscription);
     };
   }, []);

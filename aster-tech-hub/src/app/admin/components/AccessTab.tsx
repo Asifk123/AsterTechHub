@@ -11,19 +11,25 @@ export default function AccessTab() {
   useEffect(() => {
     fetchProfiles();
     
+    // 15-second polling fallback (run silently)
+    const pollInterval = setInterval(() => {
+      fetchProfiles(true);
+    }, 15000);
+
     const subscription = supabase
       .channel('profiles-sync')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => fetchProfiles())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => fetchProfiles(true))
       .subscribe();
 
     return () => {
+      clearInterval(pollInterval);
       supabase.removeChannel(subscription);
     };
   }, []);
 
-  const fetchProfiles = async () => {
+  const fetchProfiles = async (silent = false) => {
     try {
-      setIsLoading(true);
+      if (!silent) setIsLoading(true);
       const { data, error, status } = await supabase
         .from('profiles')
         .select('*');
@@ -31,7 +37,7 @@ export default function AccessTab() {
       if (error) {
         console.error("AccessTab Full Error:", error);
         showNotify(`DB Error (${status}): ${error.message} - ${error.details || ''}`, 'error');
-        setIsLoading(false);
+        if (!silent) setIsLoading(false);
         return;
       }
       
@@ -42,7 +48,7 @@ export default function AccessTab() {
     } catch (error: any) {
       showNotify(error.message || "Unknown error occurred", 'error');
     } finally {
-      setIsLoading(false);
+      if (!silent) setIsLoading(false);
     }
   };
 
