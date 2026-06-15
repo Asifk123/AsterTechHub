@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import VisitorTracker from "@/components/VisitorTracker";
-import CustomSplashScreen from "@/components/CustomSplashScreen";
 
 export const viewport: Viewport = {
   themeColor: "#0a0a0f",
@@ -120,9 +119,6 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-background text-on-surface font-body antialiased selection:bg-primary/30 min-h-screen flex flex-col">
-        {/* Custom PWA/Web App Splash Screen with Slogan */}
-        <CustomSplashScreen />
-
         {/* Navbar - Fixed at top */}
         <Navbar />
 
