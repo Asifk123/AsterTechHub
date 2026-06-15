@@ -1,9 +1,13 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import VisitorTracker from "@/components/VisitorTracker";
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0f",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.astertechhub.in'),
