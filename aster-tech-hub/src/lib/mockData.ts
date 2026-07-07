@@ -86,6 +86,17 @@ export const featuredReview = {
 
 export const reviews = [
   {
+    id: 7,
+    name: "Manjunath Niranjan",
+    company: "EVay",
+    role: "Founder & Owner",
+    avatar: "MN",
+    rating: 5,
+    review: "Aster Tech Hub has exceeded all our expectations with EVay. They engineered a high-performance, seamless EV charging solution in React and Vite. Their technical expertise, professional execution, and focus on clean UX have significantly boosted our digital launch in Davangere.",
+    color: "primary",
+    delay: "0",
+  },
+  {
     id: 1,
     name: "Sarah Mitchell",
     company: "TechFlow Inc.",

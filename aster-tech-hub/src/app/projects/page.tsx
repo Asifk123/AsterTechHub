@@ -87,8 +87,24 @@ const completedProjects = [
     location: "Davangere",
     services: ["Web Development", "Maintenance", "Digital Marketing"],
     description: "A comprehensive digital presence and marketing strategy for a premier construction and interior design firm. We delivered a high-performance website and ongoing marketing campaigns to enhance brand visibility and client acquisition.",
+    testimonial: "Reliable digital partner for our construction business. A comprehensive digital presence and marketing strategy for a premier construction and interior design firm. We delivered a high-performance website and ongoing marketing campaigns to enhance brand visibility and client acquisition.",
     url: "https://www.greenbuild.space",
     logoUrl: "/greenbuild-logo.jpeg", // Original client logo
+    techStack: ["React.js", "Tailwind", "Google Ads"],
+    bgImage: "/construction-bg.png",
+  },
+  {
+    id: "evay",
+    title: "EVay EV Charging Solutions",
+    clientName: "Manjunath Niranjan",
+    location: "Davangere",
+    services: ["Web Development", "Platform Engineering", "UI/UX Design"],
+    description: "A modern electric vehicle charging network platform built in Davangere, enabling seamless charging location mapping and client services.",
+    testimonial: "Highly professional and technical partner for our EV charging business. They designed and developed a high-performance platform using React and Vite that operates flawlessly and helps us connect with users in Davangere.",
+    url: "https://www.evay.co.in",
+    logoUrl: "/evay-logo.jpeg",
+    techStack: ["React.js", "Vite", "Tailwind"],
+    bgImage: "/ev-charging-bg.png",
   }
 ];
 
@@ -143,8 +159,8 @@ export default function Projects() {
                   {/* Cinematic Background Image */}
                   <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-700">
                     <Image 
-                      src="/construction-bg.png"
-                      alt="Construction Background"
+                      src={project.bgImage || "/construction-bg.png"}
+                      alt={`${project.title} Background`}
                       fill
                       className="object-cover grayscale"
                     />
@@ -201,7 +217,7 @@ export default function Projects() {
                   <div className="relative mb-10 group/quote">
                     <span className="absolute -top-4 -left-4 text-4xl text-primary/20 font-serif group-hover/quote:text-primary/40 transition-colors">"</span>
                     <p className="text-on-surface-variant leading-relaxed italic text-sm md:text-base border-l-2 border-primary/20 pl-6 py-2">
-                      Reliable digital partner for our construction business. {project.description}
+                      {project.testimonial || `Reliable digital partner for our construction business. ${project.description}`}
                     </p>
                   </div>
 
@@ -215,15 +231,21 @@ export default function Projects() {
                          </span>
                       ))}
                       {/* Animated Tech Stack Chips */}
-                      <span className="px-4 py-1.5 rounded-lg text-[9px] font-headline tracking-widest uppercase bg-blue-500/10 border border-blue-500/20 text-blue-300 group-hover:border-blue-500/50 transition-colors">
-                        React.js
-                      </span>
-                      <span className="px-4 py-1.5 rounded-lg text-[9px] font-headline tracking-widest uppercase bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 group-hover:border-cyan-500/50 transition-colors">
-                        Tailwind
-                      </span>
-                      <span className="px-4 py-1.5 rounded-lg text-[9px] font-headline tracking-widest uppercase bg-orange-500/10 border border-orange-500/20 text-orange-300 group-hover:border-orange-500/50 transition-colors">
-                        Google Ads
-                      </span>
+                      {project.techStack?.map((tech, idx) => (
+                         <span key={`tech-${idx}`} className={`px-4 py-1.5 rounded-lg text-[9px] font-headline tracking-widest uppercase border transition-colors ${
+                           tech.toLowerCase().includes('react') 
+                             ? 'bg-blue-500/10 border-blue-500/20 text-blue-300 group-hover:border-blue-500/50' 
+                             : tech.toLowerCase().includes('vite')
+                             ? 'bg-purple-500/10 border-purple-500/20 text-purple-300 group-hover:border-purple-500/50'
+                             : tech.toLowerCase().includes('tailwind')
+                             ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-300 group-hover:border-cyan-500/50'
+                             : tech.toLowerCase().includes('google')
+                             ? 'bg-orange-500/10 border-orange-500/20 text-orange-300 group-hover:border-orange-500/50'
+                             : 'bg-primary/10 border-primary/20 text-primary-container group-hover:border-primary/50'
+                         }`}>
+                           {tech}
+                         </span>
+                      ))}
                     </div>
                   </div>
 
