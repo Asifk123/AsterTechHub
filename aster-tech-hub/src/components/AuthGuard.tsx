@@ -56,8 +56,11 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
 
         hasSession = true;
 
-        // HARDCODED BYPASS & SELF-HEALING FOR CEO
-        if (session.user.email === 'samasif582@gmail.com') {
+        const ADMIN_EMAILS = ['samasif582@gmail.com', 'k19107673@gmail.com'];
+        const userEmail = session.user.email?.toLowerCase() || '';
+
+        // HARDCODED BYPASS & SELF-HEALING FOR ADMIN / CEO
+        if (ADMIN_EMAILS.includes(userEmail)) {
           try {
             // Self-heal profile record in database to satisfy all RLS conditions
             const { data: dbProfile } = await supabase
@@ -66,12 +69,14 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
               .eq('id', session.user.id)
               .maybeSingle();
 
+            const fullName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Admin Asif';
+
             if (!dbProfile) {
               // Profile record missing for this specific user ID, insert it
               await supabase.from('profiles').insert([{
                 id: session.user.id,
-                full_name: 'Asif K',
-                email: 'samasif582@gmail.com',
+                full_name: fullName,
+                email: userEmail,
                 role: 'ADMIN',
                 status: 'approved'
               }]);
@@ -79,11 +84,11 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
               // Correct mismatch or case constraints
               await supabase
                 .from('profiles')
-                .update({ role: 'ADMIN', email: 'samasif582@gmail.com' })
+                .update({ role: 'ADMIN', status: 'approved', email: userEmail })
                 .eq('id', session.user.id);
             }
           } catch (err) {
-            console.error('CEO profile self-healing failed:', err);
+            console.error('Admin profile self-healing failed:', err);
           }
 
           if (!requireAdmin && !requireTeam && pathname === '/dashboard') {
