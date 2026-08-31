@@ -33,6 +33,11 @@ export async function GET(request: Request) {
     
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
+      const { data: { user } } = await supabase.auth.getUser()
+      const ADMIN_EMAILS = ['samasif582@gmail.com', 'k19107673@gmail.com']
+      if (user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase())) {
+        return NextResponse.redirect(`${origin}/admin`)
+      }
       return response
     }
   }

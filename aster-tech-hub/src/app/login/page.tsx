@@ -27,6 +27,12 @@ export default function Login() {
       if (signInError) throw signInError;
 
       if (data.user) {
+        const ADMIN_EMAILS = ['samasif582@gmail.com', 'k19107673@gmail.com'];
+        if (ADMIN_EMAILS.includes(email.toLowerCase())) {
+          window.location.href = "/admin";
+          return;
+        }
+
         // Fetch role from profiles to redirect correctly
         const { data: profile } = await supabase
           .from('profiles')
@@ -37,13 +43,12 @@ export default function Login() {
         const role = (profile?.role || '').toUpperCase();
         
         if (['ADMIN', 'CEO', 'MD', 'OD'].includes(role)) {
-          router.push("/admin");
+          window.location.href = "/admin";
         } else if (role === 'TEAM') {
-          router.push("/team");
+          window.location.href = "/team";
         } else {
-          router.push("/dashboard");
+          window.location.href = "/dashboard";
         }
-        router.refresh();
       }
     } catch (err: any) {
       setError(err.message || "Invalid email or password");
