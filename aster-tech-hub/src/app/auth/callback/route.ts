@@ -1,4 +1,4 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
@@ -9,23 +9,23 @@ export async function GET(request: Request) {
 
   if (code) {
     const cookieStore = await cookies()
-    const response = NextResponse.redirect(`${origin}${next}`)
     
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value
+          getAll() {
+            return cookieStore.getAll()
           },
-          set(name: string, value: string, options: CookieOptions) {
-            cookieStore.set({ name, value, ...options })
-            response.cookies.set({ name, value, ...options })
-          },
-          remove(name: string, options: CookieOptions) {
-            cookieStore.delete({ name, ...options })
-            response.cookies.set({ name, value: '', ...options })
+          setAll(cookiesToSet) {
+            try {
+              cookiesToSet.forEach(({ name, value, options }) =>
+                cookieStore.set(name, value, options)
+              )
+            } catch {
+              // Can be ignored if handled by middleware
+            }
           },
         },
       }
@@ -35,10 +35,8 @@ export async function GET(request: Request) {
     if (!error) {
       const { data: { user } } = await supabase.auth.getUser()
       const ADMIN_EMAILS = ['samasif582@gmail.com', 'k19107673@gmail.com']
-      if (user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase())) {
-        return NextResponse.redirect(`${origin}/admin`)
-      }
-      return response
+      const target = (user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase())) ? '/admin' : next
+      return NextResponse.redirect(`${origin}${target}`)
     }
   }
 

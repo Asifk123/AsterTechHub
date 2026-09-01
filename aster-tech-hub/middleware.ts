@@ -1,11 +1,9 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
+  let supabaseResponse = NextResponse.next({
+    request,
   });
 
   const supabase = createServerClient(
@@ -13,45 +11,50 @@ export async function middleware(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get(name: string) {
-          return request.cookies.get(name)?.value;
+        getAll() {
+          return request.cookies.getAll();
         },
-        set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({ name, value, ...options });
-          response = NextResponse.next({
-            request: { headers: request.headers },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          supabaseResponse = NextResponse.next({
+            request,
           });
-          response.cookies.set({ name, value, ...options });
-        },
-        remove(name: string, options: CookieOptions) {
-          request.cookies.set({ name, value: '', ...options });
-          response = NextResponse.next({
-            request: { headers: request.headers },
-          });
-          response.cookies.set({ name, value: '', ...options });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          );
         },
       },
     }
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
+  // Refresh auth token
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const isProtectedRoute = request.nextUrl.pathname.startsWith('/admin') ||
-    request.nextUrl.pathname.startsWith('/dashboard') ||
-    request.nextUrl.pathname.startsWith('/team');
+  const pathname = request.nextUrl.pathname;
+  const isProtectedRoute =
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/team');
 
   // 1. If trying to access protected routes without login, redirect to login
   if (!user && isProtectedRoute) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    url.searchParams.set('returnUrl', pathname);
+    return NextResponse.redirect(url);
   }
 
-  // 2. Redirect already logged in users away from login/signup to dashboard
-  // Client-side AuthGuard will handle role-based redirection from dashboard immediately
-  if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup')) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+  // 2. Redirect already logged in users away from login/signup to dashboard or admin
+  if (user && (pathname === '/login' || pathname === '/signup')) {
+    const ADMIN_EMAILS = ['samasif582@gmail.com', 'k19107673@gmail.com'];
+    const url = request.nextUrl.clone();
+    url.pathname = user.email && ADMIN_EMAILS.includes(user.email.toLowerCase()) ? '/admin' : '/dashboard';
+    return NextResponse.redirect(url);
   }
 
-  return response;
+  return supabaseResponse;
 }
 
 export const config = {
