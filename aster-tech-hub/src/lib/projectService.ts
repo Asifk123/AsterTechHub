@@ -44,24 +44,19 @@ export const projectService = {
     if (project.deadline && project.deadline.trim() !== '') {
       payload.deadline = project.deadline;
     }
-    if (project.deliverables) {
-      if (Array.isArray(project.deliverables)) {
-        payload.deliverables = project.deliverables.map((d: any) => sanitizeInput(String(d)));
-      } else if (typeof project.deliverables === 'string' && project.deliverables.trim() !== '') {
-        payload.deliverables = project.deliverables.split(',').map((s: string) => sanitizeInput(s.trim())).filter(Boolean);
-      }
-    }
 
-    const { data, error } = await supabase
-      .from('projects')
-      .insert([payload])
-      .select();
-    
-    if (error) {
-      console.error("createProject DB error:", error);
-      throw error;
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .insert([payload])
+        .select();
+      
+      if (error) throw error;
+      return data[0];
+    } catch (err: any) {
+      console.error("createProject DB error:", err);
+      throw err;
     }
-    return data[0];
   },
 
   // Update project details
