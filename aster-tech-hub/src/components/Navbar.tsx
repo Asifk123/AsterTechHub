@@ -12,16 +12,22 @@ export default function Navbar() {
   const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
-    const ADMIN_EMAILS = ['samasif582@gmail.com', 'k19107673@gmail.com'];
+    const EXECUTIVE_ROLES: Record<string, string> = {
+      'samasif582@gmail.com': 'CEO',
+      'k19107673@gmail.com': 'CEO',
+      'budensi45@gmail.com': 'MD',
+      'manjunathn2212@gmail.com': 'OD'
+    };
 
     // Check current session
     supabase.auth.getSession().then((res: any) => {
       const session = res.data?.session;
       const currentUser = session?.user ?? null;
       setUser(currentUser);
-      // HARDCODED BYPASS FOR CEO / ADMIN
-      if (currentUser?.email && ADMIN_EMAILS.includes(currentUser.email.toLowerCase())) {
-        setProfile({ role: 'CEO', status: 'approved' });
+      // HARDCODED BYPASS FOR EXECUTIVE TRIO
+      const email = currentUser?.email?.toLowerCase() || '';
+      if (email && EXECUTIVE_ROLES[email]) {
+        setProfile({ role: EXECUTIVE_ROLES[email], status: 'approved' });
       } else if (currentUser && !profile) {
         fetchProfile(currentUser.id);
       }
@@ -31,9 +37,10 @@ export default function Navbar() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
-      // HARDCODED BYPASS FOR CEO / ADMIN
-      if (currentUser?.email && ADMIN_EMAILS.includes(currentUser.email.toLowerCase())) {
-        setProfile({ role: 'CEO', status: 'approved' });
+      // HARDCODED BYPASS FOR EXECUTIVE TRIO
+      const email = currentUser?.email?.toLowerCase() || '';
+      if (email && EXECUTIVE_ROLES[email]) {
+        setProfile({ role: EXECUTIVE_ROLES[email], status: 'approved' });
       } else if (currentUser) {
         fetchProfile(currentUser.id);
       } else {

@@ -27,8 +27,8 @@ export default function Login() {
       if (signInError) throw signInError;
 
       if (data.user) {
-        const ADMIN_EMAILS = ['samasif582@gmail.com', 'k19107673@gmail.com'];
-        if (ADMIN_EMAILS.includes(email.toLowerCase())) {
+        const EXECUTIVE_EMAILS = ['samasif582@gmail.com', 'k19107673@gmail.com', 'budensi45@gmail.com', 'manjunathn2212@gmail.com'];
+        if (EXECUTIVE_EMAILS.includes(email.toLowerCase())) {
           window.location.href = "/admin";
           return;
         }

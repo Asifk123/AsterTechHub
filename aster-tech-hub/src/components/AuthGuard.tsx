@@ -56,11 +56,17 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
 
         hasSession = true;
 
-        const ADMIN_EMAILS = ['samasif582@gmail.com', 'k19107673@gmail.com'];
+        const EXECUTIVE_MAP: Record<string, { role: string; name: string }> = {
+          'samasif582@gmail.com': { role: 'CEO', name: 'Asif K' },
+          'k19107673@gmail.com': { role: 'CEO', name: 'Asif K' },
+          'budensi45@gmail.com': { role: 'MD', name: 'Buden Sab I' },
+          'manjunathn2212@gmail.com': { role: 'OD', name: 'Manjunath N' }
+        };
         const userEmail = session.user.email?.toLowerCase() || '';
 
-        // HARDCODED BYPASS & SELF-HEALING FOR ADMIN / CEO
-        if (ADMIN_EMAILS.includes(userEmail)) {
+        // HARDCODED BYPASS & SELF-HEALING FOR EXECUTIVE TRIO (CEO, MD, OD)
+        if (EXECUTIVE_MAP[userEmail]) {
+          const exec = EXECUTIVE_MAP[userEmail];
           try {
             // Self-heal profile record in database to satisfy all RLS conditions
             const { data: dbProfile } = await supabase
@@ -69,26 +75,24 @@ export default function AuthGuard({ children, requireAdmin = false, requireTeam 
               .eq('id', session.user.id)
               .maybeSingle();
 
-            const fullName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Admin Asif';
+            const fullName = session.user.user_metadata?.full_name || session.user.user_metadata?.name || exec.name;
 
             if (!dbProfile) {
-              // Profile record missing for this specific user ID, insert it
               await supabase.from('profiles').insert([{
                 id: session.user.id,
                 full_name: fullName,
                 email: userEmail,
-                role: 'ADMIN',
+                role: exec.role,
                 status: 'approved'
               }]);
-            } else if (dbProfile.role !== 'ADMIN' && dbProfile.role !== 'CEO') {
-              // Correct mismatch or case constraints
+            } else if (dbProfile.role !== exec.role || dbProfile.status !== 'approved') {
               await supabase
                 .from('profiles')
-                .update({ role: 'ADMIN', status: 'approved', email: userEmail })
+                .update({ role: exec.role, status: 'approved', email: userEmail })
                 .eq('id', session.user.id);
             }
           } catch (err) {
-            console.error('Admin profile self-healing failed:', err);
+            console.error('Executive profile self-healing failed:', err);
           }
 
           if (!requireAdmin && !requireTeam && pathname === '/dashboard') {
