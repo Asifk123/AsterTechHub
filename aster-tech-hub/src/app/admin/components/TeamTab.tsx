@@ -327,9 +327,9 @@ export default function TeamTab() {
             <span className="material-symbols-outlined text-sm">person_add</span>
             Register Member
           </button>
-          <button onClick={() => setShowAddMeeting(true)} className="px-5 py-2.5 bg-secondary/10 border border-secondary/30 text-secondary rounded-lg text-sm font-headline hover:bg-secondary/20 transition-all flex items-center gap-2">
-            <span className="material-symbols-outlined text-sm font-bold">broadcast_on_home</span>
-            Broadcast
+          <button onClick={() => setShowAddMeeting(true)} className="px-5 py-2.5 bg-secondary/10 border border-secondary/30 text-secondary rounded-lg text-sm font-headline hover:bg-secondary/20 transition-all flex items-center gap-2 shadow-sm">
+            <span className="material-symbols-outlined text-base font-bold">campaign</span>
+            Broadcast Meeting
           </button>
           <button 
             onClick={() => {
