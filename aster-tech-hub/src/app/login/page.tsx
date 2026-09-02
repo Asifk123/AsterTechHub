@@ -1,17 +1,52 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-export default function Login() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const errorParam = searchParams.get('error');
+    if (errorParam) {
+      setError(errorParam === 'auth_failed' ? 'Authentication failed. Please try again.' : decodeURIComponent(errorParam));
+    }
+
+    const checkAndRedirect = (user: any) => {
+      if (!user) return;
+      const EXECUTIVE_EMAILS = ['samasif582@gmail.com', 'k19107673@gmail.com', 'budensi45@gmail.com', 'manjunathn2212@gmail.com'];
+      if (user.email && EXECUTIVE_EMAILS.includes(user.email.toLowerCase())) {
+        window.location.href = "/admin";
+      } else {
+        window.location.href = "/dashboard";
+      }
+    };
+
+    // 1. Check existing session
+    supabase.auth.getSession().then((res: any) => {
+      const session = res?.data?.session;
+      if (session?.user) {
+        checkAndRedirect(session.user);
+      }
+    });
+
+    // 2. Listen for auth changes (catches OAuth return instantly)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: any, session: any) => {
+      if ((event === 'SIGNED_IN' || event === 'USER_UPDATED') && session?.user) {
+        checkAndRedirect(session.user);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,6 +94,8 @@ export default function Login() {
 
   const handleGoogleLogin = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -67,6 +104,7 @@ export default function Login() {
       });
       if (error) throw error;
     } catch (err: any) {
+      setLoading(false);
       setError(err.message || "Error connecting to Google");
     }
   };
@@ -206,6 +244,18 @@ export default function Login() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }
 
