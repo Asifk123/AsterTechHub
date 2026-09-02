@@ -27,6 +27,94 @@ export default function OverviewTab({ setActiveTab }: OverviewTabProps) {
   // 2. UI States
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeMemberId, setActiveMemberId] = useState<string | null>(null);
+
+  const getMemberTheme = (name: string, role: string, index: number) => {
+    const roleLower = (role || '').toLowerCase();
+    const nameLower = (name || '').toLowerCase();
+
+    // 1. CEO / Asif -> Electric Cyan / Azure
+    if (roleLower.includes('ceo') || nameLower.includes('asif')) {
+      return {
+        key: 'cyan',
+        border: 'hover:border-cyan-400/50 border-white/5',
+        activeBorder: 'border-cyan-400 ring-2 ring-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.3)] bg-cyan-950/20',
+        avatarBg: 'from-cyan-500/25 to-blue-600/25',
+        avatarBorder: 'border-cyan-400/50 shadow-[0_0_20px_rgba(6,182,212,0.35)]',
+        textAccent: 'text-cyan-400',
+        badge: 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30'
+      };
+    }
+    // 2. MD / Buden Sab -> Neon Emerald / Mint
+    if (roleLower.includes('md') || roleLower.includes('managing') || nameLower.includes('buden')) {
+      return {
+        key: 'emerald',
+        border: 'hover:border-emerald-400/50 border-white/5',
+        activeBorder: 'border-emerald-400 ring-2 ring-emerald-400/40 shadow-[0_0_30px_rgba(16,185,129,0.3)] bg-emerald-950/20',
+        avatarBg: 'from-emerald-500/25 to-teal-600/25',
+        avatarBorder: 'border-emerald-400/50 shadow-[0_0_20px_rgba(16,185,129,0.35)]',
+        textAccent: 'text-emerald-400',
+        badge: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
+      };
+    }
+    // 3. OD / Manjunath -> Neon Purple / Ultraviolet
+    if (roleLower.includes('od') || roleLower.includes('operations') || nameLower.includes('manjunath')) {
+      return {
+        key: 'purple',
+        border: 'hover:border-purple-400/50 border-white/5',
+        activeBorder: 'border-purple-400 ring-2 ring-purple-400/40 shadow-[0_0_30px_rgba(168,85,247,0.3)] bg-purple-950/20',
+        avatarBg: 'from-purple-500/25 to-indigo-600/25',
+        avatarBorder: 'border-purple-400/50 shadow-[0_0_20px_rgba(168,85,247,0.35)]',
+        textAccent: 'text-purple-400',
+        badge: 'bg-purple-500/10 text-purple-300 border-purple-500/30'
+      };
+    }
+    // 4. Marketing / Vinaya -> Sunset Amber / Gold
+    if (roleLower.includes('marketing') || nameLower.includes('vinaya')) {
+      return {
+        key: 'amber',
+        border: 'hover:border-amber-400/50 border-white/5',
+        activeBorder: 'border-amber-400 ring-2 ring-amber-400/40 shadow-[0_0_30px_rgba(245,158,11,0.3)] bg-amber-950/20',
+        avatarBg: 'from-amber-500/25 to-orange-600/25',
+        avatarBorder: 'border-amber-400/50 shadow-[0_0_20px_rgba(245,158,11,0.35)]',
+        textAccent: 'text-amber-400',
+        badge: 'bg-amber-500/10 text-amber-300 border-amber-500/30'
+      };
+    }
+
+    // Dynamic rotating themes for any other members
+    const palettes = [
+      {
+        key: 'rose',
+        border: 'hover:border-rose-400/50 border-white/5',
+        activeBorder: 'border-rose-400 ring-2 ring-rose-400/40 shadow-[0_0_30px_rgba(244,63,94,0.3)] bg-rose-950/20',
+        avatarBg: 'from-rose-500/25 to-pink-600/25',
+        avatarBorder: 'border-rose-400/50 shadow-[0_0_20px_rgba(244,63,94,0.35)]',
+        textAccent: 'text-rose-400',
+        badge: 'bg-rose-500/10 text-rose-300 border-rose-500/30'
+      },
+      {
+        key: 'indigo',
+        border: 'hover:border-indigo-400/50 border-white/5',
+        activeBorder: 'border-indigo-400 ring-2 ring-indigo-400/40 shadow-[0_0_30px_rgba(99,102,241,0.3)] bg-indigo-950/20',
+        avatarBg: 'from-indigo-500/25 to-blue-600/25',
+        avatarBorder: 'border-indigo-400/50 shadow-[0_0_20px_rgba(99,102,241,0.35)]',
+        textAccent: 'text-indigo-400',
+        badge: 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30'
+      },
+      {
+        key: 'teal',
+        border: 'hover:border-teal-400/50 border-white/5',
+        activeBorder: 'border-teal-400 ring-2 ring-teal-400/40 shadow-[0_0_30px_rgba(20,184,166,0.3)] bg-teal-950/20',
+        avatarBg: 'from-teal-500/25 to-emerald-600/25',
+        avatarBorder: 'border-teal-400/50 shadow-[0_0_20px_rgba(20,184,166,0.35)]',
+        textAccent: 'text-teal-400',
+        badge: 'bg-teal-500/10 text-teal-300 border-teal-500/30'
+      }
+    ];
+
+    return palettes[index % palettes.length];
+  };
 
   // 3. Effects
   useEffect(() => {
@@ -318,8 +406,11 @@ export default function OverviewTab({ setActiveTab }: OverviewTabProps) {
             Management
           </button>
         </div>
-        <div className="grid md:grid-cols-4 gap-4">
-          {data.members.filter((m: any) => m.status === 'Active').slice(0, 4).map((member: any) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          {data.members.filter((m: any) => m.status === 'Active').slice(0, 4).map((member: any, idx: number) => {
+            const theme = getMemberTheme(member.name, member.role, idx);
+            const isSelected = activeMemberId === member.id;
+
             const initials = member.avatar && member.avatar.length <= 3 && !member.avatar.includes('/')
               ? member.avatar 
               : (member.name || "AT").split(" ").map((n: string) => n[0]).filter(Boolean).slice(0, 2).join("").toUpperCase();
@@ -335,24 +426,48 @@ export default function OverviewTab({ setActiveTab }: OverviewTabProps) {
             return (
               <div
                 key={member.id}
-                className="p-4 rounded-xl bg-surface-container-low border border-white/5 text-center group hover:border-secondary/30 transition-all shadow-sm"
+                onClick={() => setActiveMemberId(isSelected ? null : member.id)}
+                className={`p-5 rounded-2xl bg-surface-container-low border text-center cursor-pointer transition-all duration-300 relative overflow-hidden group select-none ${
+                  isSelected 
+                    ? theme.activeBorder 
+                    : `${theme.border} hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(255,255,255,0.06)]`
+                }`}
               >
-                <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br from-primary/25 to-secondary/25 border border-primary/30 flex items-center justify-center group-hover:scale-110 group-hover:border-primary transition-all shadow-[0_0_15px_rgba(0,212,255,0.15)] overflow-hidden">
+                {/* Background Ambient Glow on Hover/Active */}
+                <div 
+                  className={`absolute -top-12 -right-12 w-28 h-28 rounded-full blur-2xl pointer-events-none transition-opacity duration-300 ${
+                    isSelected ? 'opacity-60 bg-gradient-to-br ' + theme.avatarBg : 'opacity-0 group-hover:opacity-40 bg-gradient-to-br ' + theme.avatarBg
+                  }`} 
+                />
+
+                {/* Avatar Icon */}
+                <div className={`w-16 h-16 mx-auto mb-3.5 rounded-2xl bg-gradient-to-br ${theme.avatarBg} border ${theme.avatarBorder} flex items-center justify-center group-hover:scale-110 transition-all duration-300 overflow-hidden relative z-10`}>
                   {member.avatar && (member.avatar.startsWith('http') || member.avatar.startsWith('/')) ? (
                     <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
                   ) : (
-                    <span className="font-headline text-lg font-black text-primary tracking-wider">
+                    <span className={`font-headline text-xl font-black ${theme.textAccent} tracking-wider drop-shadow-[0_0_8px_currentColor]`}>
                       {initials}
                     </span>
                   )}
                 </div>
-                <h4 className="font-headline text-sm mb-1 font-bold text-on-surface">{member.name}</h4>
-                <p className="text-[10px] text-on-surface-variant mb-3 uppercase tracking-widest font-bold opacity-80">{member.role}</p>
-                <div className="flex justify-center items-center gap-2 text-xs">
-                  <span className="text-primary font-black">{completedTasks}</span>
-                  <span className="text-on-surface-variant opacity-50">/</span>
+
+                {/* Member Info */}
+                <h4 className="font-headline text-sm mb-1 font-bold text-on-surface group-hover:text-white transition-colors relative z-10">
+                  {member.name}
+                </h4>
+                
+                <div className="mb-3.5 relative z-10">
+                  <span className={`inline-block px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border ${theme.badge}`}>
+                    {member.role}
+                  </span>
+                </div>
+
+                {/* Tasks Stat */}
+                <div className="flex justify-center items-center gap-2 text-xs bg-white/[0.03] py-1.5 px-3 rounded-lg border border-white/5 relative z-10">
+                  <span className={`font-black ${theme.textAccent}`}>{completedTasks}</span>
+                  <span className="text-on-surface-variant opacity-40">/</span>
                   <span className="text-white font-bold">{memberTasks.length}</span>
-                  <span className="text-[10px] text-on-surface-variant uppercase ml-1">tasks</span>
+                  <span className="text-[10px] text-on-surface-variant uppercase font-bold tracking-wider ml-1">tasks</span>
                 </div>
               </div>
             );
