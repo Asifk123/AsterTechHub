@@ -320,22 +320,35 @@ export default function OverviewTab({ setActiveTab }: OverviewTabProps) {
         </div>
         <div className="grid md:grid-cols-4 gap-4">
           {data.members.filter((m: any) => m.status === 'Active').slice(0, 4).map((member: any) => {
-            const memberTasks = data.tasks.filter((t: any) => t.assignee === member.avatar);
-            const completedTasks = memberTasks.filter((t: any) => t.status === 'Done').length;
+            const initials = member.avatar && member.avatar.length <= 3 && !member.avatar.includes('/')
+              ? member.avatar 
+              : (member.name || "AT").split(" ").map((n: string) => n[0]).filter(Boolean).slice(0, 2).join("").toUpperCase();
+            
+            const memberTasks = (data.tasks || []).filter((t: any) => 
+              t.assignee === member.name || 
+              t.assignee === member.avatar || 
+              t.assignee === initials || 
+              (member.role && t.assignee?.toLowerCase() === member.role?.toLowerCase())
+            );
+            const completedTasks = memberTasks.filter((t: any) => t.status === 'Done' || t.status === 'Completed').length;
             
             return (
               <div
                 key={member.id}
-                className="p-4 rounded-lg bg-surface-container-low border border-white/5 text-center group hover:border-secondary/30 transition-all"
+                className="p-4 rounded-xl bg-surface-container-low border border-white/5 text-center group hover:border-secondary/30 transition-all shadow-sm"
               >
-                <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <span className="font-headline text-lg font-black text-primary">
-                    {member.avatar}
-                  </span>
+                <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br from-primary/25 to-secondary/25 border border-primary/30 flex items-center justify-center group-hover:scale-110 group-hover:border-primary transition-all shadow-[0_0_15px_rgba(0,212,255,0.15)] overflow-hidden">
+                  {member.avatar && (member.avatar.startsWith('http') || member.avatar.startsWith('/')) ? (
+                    <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="font-headline text-lg font-black text-primary tracking-wider">
+                      {initials}
+                    </span>
+                  )}
                 </div>
-                <h4 className="font-headline text-sm mb-1 font-bold">{member.name}</h4>
-                <p className="text-[10px] text-on-surface-variant mb-3 uppercase tracking-widest font-bold">{member.role}</p>
-                <div className="flex justify-center gap-2 text-xs">
+                <h4 className="font-headline text-sm mb-1 font-bold text-on-surface">{member.name}</h4>
+                <p className="text-[10px] text-on-surface-variant mb-3 uppercase tracking-widest font-bold opacity-80">{member.role}</p>
+                <div className="flex justify-center items-center gap-2 text-xs">
                   <span className="text-primary font-black">{completedTasks}</span>
                   <span className="text-on-surface-variant opacity-50">/</span>
                   <span className="text-white font-bold">{memberTasks.length}</span>
