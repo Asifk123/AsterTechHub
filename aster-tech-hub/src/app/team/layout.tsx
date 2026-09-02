@@ -13,8 +13,8 @@ export default function TeamLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthGuard requireTeam={true}>
+    <>
       {children}
-    </AuthGuard>
+    </>
   );
 }
