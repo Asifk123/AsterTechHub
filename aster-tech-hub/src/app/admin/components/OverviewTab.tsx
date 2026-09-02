@@ -154,8 +154,8 @@ export default function OverviewTab({ setActiveTab }: OverviewTabProps) {
             </h3>
             <span className="text-[10px] font-bold text-green-400 bg-green-400/10 px-2 py-1 rounded w-fit">Live Sync</span>
           </div>
-          <div className="h-[200px] md:h-[250px] w-full min-h-[200px]">
-            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={200}>
+          <div className="h-[220px] w-full min-w-0 relative">
+            <ResponsiveContainer width="99%" height="100%">
               <AreaChart data={data.analytics.trend}>
                 <defs>
                   <linearGradient id="colorVisits" x1="0" y1="0" x2="0" y2="1">
