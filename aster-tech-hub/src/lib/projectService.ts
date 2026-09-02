@@ -27,12 +27,40 @@ export const projectService = {
 
   // Create a new project
   async createProject(project: any) {
+    const payload: any = {
+      name: sanitizeInput(project.name),
+      client: sanitizeInput(project.client),
+      status: project.status || 'Planning',
+      progress: parseInt(project.progress?.toString() || '0') || 0,
+    };
+
+    if (project.description) payload.description = sanitizeInput(project.description);
+    if (project.budget !== undefined && project.budget !== null) {
+      payload.budget = typeof project.budget === 'number' ? project.budget : parseFloat(project.budget.toString().replace(/[^0-9.]/g, '')) || 0;
+    }
+    if (project.client_id && project.client_id.trim() !== '') {
+      payload.client_id = project.client_id;
+    }
+    if (project.deadline && project.deadline.trim() !== '') {
+      payload.deadline = project.deadline;
+    }
+    if (project.deliverables) {
+      if (Array.isArray(project.deliverables)) {
+        payload.deliverables = project.deliverables.map((d: any) => sanitizeInput(String(d)));
+      } else if (typeof project.deliverables === 'string' && project.deliverables.trim() !== '') {
+        payload.deliverables = project.deliverables.split(',').map((s: string) => sanitizeInput(s.trim())).filter(Boolean);
+      }
+    }
+
     const { data, error } = await supabase
       .from('projects')
-      .insert([project])
+      .insert([payload])
       .select();
     
-    if (error) throw error;
+    if (error) {
+      console.error("createProject DB error:", error);
+      throw error;
+    }
     return data[0];
   },
 

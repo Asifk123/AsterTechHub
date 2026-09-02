@@ -105,30 +105,36 @@ export default function ProjectsTab() {
       const projectData = {
         name: newProject.name,
         client: newProject.client, 
-        client_id: newProject.client_id,
-        status: newProject.status,
-        progress: parseInt(newProject.progress.toString()) || 0,
+        client_id: newProject.client_id?.trim() ? newProject.client_id.trim() : null,
+        status: newProject.status || 'Planning',
+        progress: parseInt(newProject.progress?.toString() || '0') || 0,
         budget: parseFloat(newProject.value.replace(/[^0-9.]/g, '')) || 0,
-        deadline: newProject.deadline,
-        team: newProject.team,
-        deliverables: newProject.deliverables,
+        deadline: newProject.deadline?.trim() ? newProject.deadline.trim() : null,
+        deliverables: newProject.deliverables ? newProject.deliverables.split(',').map((s: string) => s.trim()).filter(Boolean) : [],
       };
 
       const createdProject = await projectService.createProject(projectData);
       
       // Add initial log
-      await projectService.addActivityLog(createdProject.id, {
-        text: "Project created in system",
-        time: new Date().toISOString(),
-        type: "add_circle"
-      });
+      if (createdProject?.id) {
+        try {
+          await projectService.addActivityLog(createdProject.id, {
+            text: "Project created in system",
+            time: new Date().toISOString(),
+            type: "add_circle"
+          });
+        } catch (logErr) {
+          console.error("Activity log error:", logErr);
+        }
+      }
 
       setShowAddModal(false);
       setNewProject({ name: "", client: "", client_id: "", status: "Planning", progress: 0, value: "", deadline: "", team: "", deliverables: "" });
+      showNotify("Project added successfully!");
       fetchProjects();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error adding project:", error);
-      showNotify("Failed to add project.", 'error');
+      showNotify(error?.message || "Failed to add project.", 'error');
     }
   };
 
