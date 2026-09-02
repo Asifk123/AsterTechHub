@@ -45,13 +45,70 @@ export default function Reviews() {
     }
   };
 
-  const getColorFromName = (name: string) => {
-    const colors = ["primary", "secondary", "primary-container"];
+  const getReviewTheme = (name: string, index: number) => {
+    const themes = [
+      {
+        name: "purple",
+        border: "hover:border-purple-500/50 hover:shadow-[0_10px_35px_rgba(168,85,247,0.2)]",
+        avatarBg: "bg-purple-500/15 text-purple-300 border-purple-500/30 group-hover:bg-purple-500/25",
+        textAccent: "group-hover:text-purple-300",
+        stars: "text-purple-400",
+        badge: "text-purple-300/90",
+        quote: "group-hover:text-purple-400/20"
+      },
+      {
+        name: "cyan",
+        border: "hover:border-cyan-500/50 hover:shadow-[0_10px_35px_rgba(6,182,212,0.2)]",
+        avatarBg: "bg-cyan-500/15 text-cyan-300 border-cyan-500/30 group-hover:bg-cyan-500/25",
+        textAccent: "group-hover:text-cyan-300",
+        stars: "text-cyan-400",
+        badge: "text-cyan-300/90",
+        quote: "group-hover:text-cyan-400/20"
+      },
+      {
+        name: "emerald",
+        border: "hover:border-emerald-500/50 hover:shadow-[0_10px_35px_rgba(16,185,129,0.2)]",
+        avatarBg: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30 group-hover:bg-emerald-500/25",
+        textAccent: "group-hover:text-emerald-300",
+        stars: "text-emerald-400",
+        badge: "text-emerald-300/90",
+        quote: "group-hover:text-emerald-400/20"
+      },
+      {
+        name: "amber",
+        border: "hover:border-amber-500/50 hover:shadow-[0_10px_35px_rgba(245,158,11,0.2)]",
+        avatarBg: "bg-amber-500/15 text-amber-300 border-amber-500/30 group-hover:bg-amber-500/25",
+        textAccent: "group-hover:text-amber-300",
+        stars: "text-amber-400",
+        badge: "text-amber-300/90",
+        quote: "group-hover:text-amber-400/20"
+      },
+      {
+        name: "rose",
+        border: "hover:border-rose-500/50 hover:shadow-[0_10px_35px_rgba(244,63,94,0.2)]",
+        avatarBg: "bg-rose-500/15 text-rose-300 border-rose-500/30 group-hover:bg-rose-500/25",
+        textAccent: "group-hover:text-rose-300",
+        stars: "text-rose-400",
+        badge: "text-rose-300/90",
+        quote: "group-hover:text-rose-400/20"
+      },
+      {
+        name: "blue",
+        border: "hover:border-blue-500/50 hover:shadow-[0_10px_35px_rgba(59,130,246,0.2)]",
+        avatarBg: "bg-blue-500/15 text-blue-300 border-blue-500/30 group-hover:bg-blue-500/25",
+        textAccent: "group-hover:text-blue-300",
+        stars: "text-blue-400",
+        badge: "text-blue-300/90",
+        quote: "group-hover:text-blue-400/20"
+      }
+    ];
+
     let hash = 0;
     for (let i = 0; i < name.length; i++) {
       hash = name.charCodeAt(i) + ((hash << 5) - hash);
     }
-    return colors[Math.abs(hash) % colors.length];
+    const themeIndex = (Math.abs(hash) + index) % themes.length;
+    return themes[themeIndex];
   };
 
   const handleReviewSubmit = async (e: React.FormEvent) => {
@@ -222,55 +279,54 @@ export default function Reviews() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {reviews.map((review) => (
-                <div
-                  key={review.id}
-                  style={{ animationDelay: `${review.delay || 0}ms` }}
-                  className="group glass-panel rounded-2xl border border-white/5 hover:border-primary/40 transition-all duration-500 p-8 flex flex-col hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] animate-in fade-in slide-in-from-bottom-8 fill-mode-both"
-                >
-                  {/* Avatar + Info */}
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-black tracking-wider border transition-colors duration-300 ${
-                      (review.color || getColorFromName(review.name)) === "primary"
-                        ? "bg-primary/10 text-primary border-primary/20 group-hover:bg-primary/20"
-                        : (review.color || getColorFromName(review.name)) === "secondary"
-                        ? "bg-secondary/10 text-secondary border-secondary/20 group-hover:bg-secondary/20"
-                        : "bg-[#a8e8ff]/10 text-[#a8e8ff] border-[#a8e8ff]/20 group-hover:bg-[#a8e8ff]/20"
-                    }`}>
-                      {review.avatar || review.name.split(" ").map((n: string) => n[0]).join("").toUpperCase()}
+              {reviews.map((review, idx) => {
+                const theme = getReviewTheme(review.name || "Client", idx);
+                const initials = review.avatar || (review.name || "CL").split(" ").map((n: string) => n[0]).filter(Boolean).slice(0, 2).join("").toUpperCase();
+
+                return (
+                  <div
+                    key={review.id || idx}
+                    style={{ animationDelay: `${review.delay || (idx * 100)}ms` }}
+                    className={`group glass-panel rounded-2xl border border-white/5 ${theme.border} transition-all duration-500 p-8 flex flex-col hover:-translate-y-2 animate-in fade-in slide-in-from-bottom-8 fill-mode-both relative overflow-hidden`}
+                  >
+                    {/* Avatar + Info */}
+                    <div className="flex items-center gap-4 mb-6 relative z-10">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-sm font-black tracking-wider border transition-all duration-300 ${theme.avatarBg} group-hover:scale-105`}>
+                        {initials}
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className={`font-headline font-bold text-white ${theme.textAccent} transition-colors text-lg truncate`}>
+                          {review.name}
+                        </h3>
+                        <p className="text-on-surface-variant text-[10px] uppercase tracking-widest font-bold truncate">
+                          {review.role || 'Verified'} <span className="text-white/30">•</span> {review.company || 'Client'}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-headline font-bold text-white group-hover:text-primary transition-colors text-lg">
-                        {review.name}
-                      </h3>
-                      <p className="text-on-surface-variant text-[10px] uppercase tracking-widest font-bold">
-                        {review.role || 'Verified'} <span className="text-white/30">•</span> {review.company || 'Client'}
-                      </p>
+
+                    {/* Star Rating */}
+                    <div className="flex gap-1 mb-4 relative z-10">
+                      {[...Array(review.rating || 5)].map((_, i) => (
+                        <span key={i} className={`${theme.stars} text-sm drop-shadow-[0_0_8px_currentColor]`}>★</span>
+                      ))}
+                    </div>
+
+                    {/* Review Text */}
+                    <p className="text-on-surface-variant text-sm leading-relaxed flex-grow italic relative z-10">
+                      "{review.review}"
+                    </p>
+
+                    {/* Verified Badge */}
+                    <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between relative z-10">
+                      <span className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest ${theme.badge}`}>
+                        <span className="material-symbols-outlined text-[14px]">verified</span>
+                        Verified Client
+                      </span>
+                      <span className={`material-symbols-outlined text-white/10 ${theme.quote} transition-colors text-4xl leading-none`}>format_quote</span>
                     </div>
                   </div>
-
-                  {/* Star Rating */}
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(review.rating || 5)].map((_, i) => (
-                      <span key={i} className="text-primary text-sm">★</span>
-                    ))}
-                  </div>
-
-                  {/* Review Text */}
-                  <p className="text-on-surface-variant text-sm leading-relaxed flex-grow italic">
-                    "{review.review}"
-                  </p>
-
-                  {/* Verified Badge */}
-                  <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
-                    <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-primary/80">
-                      <span className="material-symbols-outlined text-[14px]">verified</span>
-                      Verified Client
-                    </span>
-                    <span className="material-symbols-outlined text-white/10 text-4xl leading-none">format_quote</span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
