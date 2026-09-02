@@ -345,25 +345,70 @@ export default function TeamTab() {
 
       {/* Active Team Slider */}
       <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-        {team.map((member) => (
-          <div key={member.id} className="flex-shrink-0 w-64 p-4 rounded-xl glass-panel border border-white/5 flex items-center gap-4 group hover:border-primary/30 transition-all relative">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-surface to-surface-container-high border border-white/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-              <span className="font-headline text-primary text-sm font-bold">{member.avatar}</span>
+        {team.map((member) => {
+          const initials = member.avatar && member.avatar.length <= 3 && !member.avatar.includes('/')
+            ? member.avatar 
+            : (member.name || "AT").split(" ").map((n: string) => n[0]).filter(Boolean).slice(0, 2).join("").toUpperCase();
+
+          const roleLower = (member.role || '').toLowerCase();
+          const nameLower = (member.name || '').toLowerCase();
+          
+          let theme = {
+            border: 'border-white/5 hover:border-cyan-400/50',
+            avatarBg: 'from-cyan-500/25 to-blue-600/25',
+            avatarBorder: 'border-cyan-400/50 shadow-[0_0_15px_rgba(6,182,212,0.25)]',
+            textAccent: 'text-cyan-400'
+          };
+          
+          if (roleLower.includes('md') || roleLower.includes('managing') || nameLower.includes('buden')) {
+            theme = {
+              border: 'border-white/5 hover:border-emerald-400/50',
+              avatarBg: 'from-emerald-500/25 to-teal-600/25',
+              avatarBorder: 'border-emerald-400/50 shadow-[0_0_15px_rgba(16,185,129,0.25)]',
+              textAccent: 'text-emerald-400'
+            };
+          } else if (roleLower.includes('od') || roleLower.includes('operations') || nameLower.includes('manjunath')) {
+            theme = {
+              border: 'border-white/5 hover:border-purple-400/50',
+              avatarBg: 'from-purple-500/25 to-indigo-600/25',
+              avatarBorder: 'border-purple-400/50 shadow-[0_0_15px_rgba(168,85,247,0.25)]',
+              textAccent: 'text-purple-400'
+            };
+          } else if (roleLower.includes('marketing') || nameLower.includes('vinaya')) {
+            theme = {
+              border: 'border-white/5 hover:border-amber-400/50',
+              avatarBg: 'from-amber-500/25 to-orange-600/25',
+              avatarBorder: 'border-amber-400/50 shadow-[0_0_15px_rgba(245,158,11,0.25)]',
+              textAccent: 'text-amber-400'
+            };
+          }
+
+          return (
+            <div key={member.id} className={`flex-shrink-0 w-64 p-4 rounded-xl glass-panel border ${theme.border} flex items-center gap-4 group transition-all relative overflow-hidden`}>
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${theme.avatarBg} border ${theme.avatarBorder} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform overflow-hidden`}>
+                {member.avatar && (member.avatar.startsWith('http') || member.avatar.startsWith('/')) ? (
+                  <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                ) : (
+                  <span className={`font-headline ${theme.textAccent} text-sm font-black tracking-wider drop-shadow-[0_0_6px_currentColor]`}>
+                    {initials}
+                  </span>
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-headline text-sm text-on-surface font-bold truncate group-hover:text-white transition-colors">{member.name}</h4>
+                <p className="text-[10px] text-on-surface-variant uppercase tracking-widest truncate">{member.role}</p>
+              </div>
+              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button onClick={() => { setSelectedMember(member); setShowEditMember(true); }} className="p-1 hover:bg-white/10 rounded text-on-surface-variant hover:text-primary transition-colors">
+                  <span className="material-symbols-outlined text-[14px]">edit</span>
+                </button>
+                <button onClick={() => handleDeleteMember(member.id)} className="p-1 hover:bg-red-500/10 rounded text-on-surface-variant hover:text-red-400 transition-colors">
+                  <span className="material-symbols-outlined text-[14px]">delete</span>
+                </button>
+              </div>
             </div>
-            <div className="flex-1">
-              <h4 className="font-headline text-sm text-on-surface">{member.name}</h4>
-              <p className="text-[10px] text-on-surface-variant uppercase tracking-widest">{member.role}</p>
-            </div>
-            <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button onClick={() => { setSelectedMember(member); setShowEditMember(true); }} className="p-1 hover:bg-white/10 rounded text-on-surface-variant hover:text-primary transition-colors">
-                <span className="material-symbols-outlined text-[14px]">edit</span>
-              </button>
-              <button onClick={() => handleDeleteMember(member.id)} className="p-1 hover:bg-red-500/10 rounded text-on-surface-variant hover:text-red-400 transition-colors">
-                <span className="material-symbols-outlined text-[14px]">delete</span>
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
         {team.length === 0 && !isLoading && (
           <p className="text-sm text-on-surface-variant italic py-4">No active members yet.</p>
         )}
@@ -491,8 +536,8 @@ export default function TeamTab() {
                           >
                             <span className="material-symbols-outlined text-[14px]">delete</span>
                           </button>
-                          <div className="w-7 h-7 rounded-full bg-surface-container-high border border-white/10 flex items-center justify-center text-[10px] font-bold text-primary shadow-sm">
-                            {task.assignee}
+                          <div className="w-7 h-7 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-[10px] font-black text-primary shadow-sm tracking-tighter">
+                            {task.assignee ? (task.assignee.length <= 3 ? task.assignee : task.assignee.split(' ').map((n: string) => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase()) : "AT"}
                           </div>
                         </div>
                       </div>
