@@ -96,7 +96,9 @@ const completedProjects = [
     services: ["Mobile App Development", "Business ERP", "Realtime Sync"],
     description: "A tailored enterprise mobile business management application designed for Green Build Interiors & Construction. Built for on-site engineers and contractors to track daily project milestones, inventory dispatch, budget expenditure, and client progress reports on the go.",
     testimonial: "Aster Tech Hub delivered a robust mobile platform that transformed how we coordinate construction sites across Davangere. From resource management to instant milestone updates, it keeps our entire business in sync.",
-    url: "https://www.greenbuild.space",
+    url: "#",
+    isConfidential: true,
+    confidentialNotice: "This enterprise mobile management suite is proprietary and restricted to authorized Green Build personnel and on-site contractors. Public access is strictly prohibited under internal security protocols.",
     logoUrl: "/greenbuild-app-logo.png",
     techStack: ["Flutter / React Native", "Supabase", "Node.js", "Tailwind"],
     bgImage: "/construction-bg.png",
@@ -133,10 +135,18 @@ const categories = ["All", "Web Development", "App Development", "Data Science",
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [confidentialModal, setConfidentialModal] = useState<{ open: boolean; project?: any }>({ open: false });
 
   const filteredProjects = selectedCategory === "All"
     ? projects
     : projects.filter((project) => project.category === selectedCategory);
+
+  const handleProjectClick = (e: React.MouseEvent, project: any) => {
+    if (project.isConfidential) {
+      e.preventDefault();
+      setConfidentialModal({ open: true, project });
+    }
+  };
 
   return (
     <>
@@ -170,10 +180,20 @@ export default function Projects() {
             {completedProjects.map((project) => (
               <div key={project.id} className="glass-panel rounded-3xl border border-white/10 overflow-hidden flex flex-col md:flex-row group hover:border-primary/50 transition-all duration-700 shadow-2xl relative">
                 
-                {/* Floating "Visit Site" Arrow (Top Right) */}
-                <Link href={project.url} target="_blank" rel="noopener noreferrer" className="absolute top-6 right-6 z-30 w-12 h-12 bg-surface-container-highest/50 backdrop-blur-md rounded-full border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 shadow-xl opacity-0 group-hover:opacity-100 translate-y-4">
-                  <span className="material-symbols-outlined -rotate-45">arrow_forward</span>
-                </Link>
+                {/* Floating "Visit Site" / "Confidential" Arrow (Top Right) */}
+                {project.isConfidential ? (
+                  <button 
+                    onClick={(e) => handleProjectClick(e, project)}
+                    className="absolute top-6 right-6 z-30 w-12 h-12 bg-amber-500/10 backdrop-blur-md rounded-full border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:bg-amber-500 group-hover:text-background group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 shadow-xl opacity-0 group-hover:opacity-100 translate-y-4"
+                    title="Proprietary & Confidential"
+                  >
+                    <span className="material-symbols-outlined text-lg">lock</span>
+                  </button>
+                ) : (
+                  <Link href={project.url} target="_blank" rel="noopener noreferrer" className="absolute top-6 right-6 z-30 w-12 h-12 bg-surface-container-highest/50 backdrop-blur-md rounded-full border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 shadow-xl opacity-0 group-hover:opacity-100 translate-y-4">
+                    <span className="material-symbols-outlined -rotate-45">arrow_forward</span>
+                  </Link>
+                )}
 
                 {/* Logo / Image Side */}
                 <div className="md:w-1/2 p-6 md:p-14 flex items-center justify-center relative overflow-hidden border-b md:border-b-0 md:border-r border-white/5 min-h-[250px] md:min-h-[350px]">
@@ -206,10 +226,17 @@ export default function Projects() {
                   
                   {/* Badges */}
                   <div className="absolute top-6 left-6 z-20">
-                     <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 border border-white/10 text-[10px] font-headline uppercase tracking-widest text-primary shadow-2xl backdrop-blur-xl">
-                       <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,0.8)]"></span>
-                       Live Framework
-                     </span>
+                    {project.isConfidential ? (
+                      <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-950/70 border border-amber-500/40 text-[10px] font-headline uppercase tracking-widest text-amber-400 shadow-2xl backdrop-blur-xl">
+                        <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shadow-[0_0_10px_rgba(245,158,11,0.8)]"></span>
+                        Internal Suite
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 border border-white/10 text-[10px] font-headline uppercase tracking-widest text-primary shadow-2xl backdrop-blur-xl">
+                        <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,0.8)]"></span>
+                        Live Framework
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -217,8 +244,17 @@ export default function Projects() {
                 <div className="md:w-1/2 p-8 md:p-14 flex flex-col justify-center relative z-10 bg-surface-container-lowest/30 backdrop-blur-sm">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-primary text-xl">verified</span>
-                      <span className="text-xs font-headline uppercase tracking-[0.2em] text-on-surface-variant">Established Partner</span>
+                      {project.isConfidential ? (
+                        <>
+                          <span className="material-symbols-outlined text-amber-400 text-xl">shield_lock</span>
+                          <span className="text-xs font-headline uppercase tracking-[0.2em] text-amber-400/90 font-bold">Confidential Enterprise App</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="material-symbols-outlined text-primary text-xl">verified</span>
+                          <span className="text-xs font-headline uppercase tracking-[0.2em] text-on-surface-variant">Established Partner</span>
+                        </>
+                      )}
                     </div>
                   </div>
                   
@@ -272,10 +308,20 @@ export default function Projects() {
 
                   {/* Main Action Button */}
                   <div className="flex items-center gap-6 mt-auto">
-                    <Link href={project.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold uppercase tracking-widest rounded-xl shadow-[0_0_30px_rgba(0,212,255,0.2)] hover:shadow-[0_0_50px_rgba(0,212,255,0.4)] hover:-translate-y-1 transition-all duration-300 text-xs">
-                      Explore Live Project
-                      <span className="material-symbols-outlined text-sm">rocket_launch</span>
-                    </Link>
+                    {project.isConfidential ? (
+                      <button 
+                        onClick={(e) => handleProjectClick(e, project)}
+                        className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/40 text-amber-300 font-headline font-bold uppercase tracking-widest rounded-xl shadow-[0_0_25px_rgba(245,158,11,0.2)] hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] hover:border-amber-400 hover:scale-[1.02] transition-all duration-300 text-xs"
+                      >
+                        <span className="material-symbols-outlined text-sm text-amber-400">lock</span>
+                        Confidential Access Only
+                      </button>
+                    ) : (
+                      <Link href={project.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold uppercase tracking-widest rounded-xl shadow-[0_0_30px_rgba(0,212,255,0.2)] hover:shadow-[0_0_50px_rgba(0,212,255,0.4)] hover:-translate-y-1 transition-all duration-300 text-xs">
+                        Explore Live Project
+                        <span className="material-symbols-outlined text-sm">rocket_launch</span>
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
@@ -412,6 +458,66 @@ export default function Projects() {
           </div>
         </div>
       </section>
+
+      {/* Confidential Access Security Alert Modal */}
+      {confidentialModal.open && confidentialModal.project && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
+          <div 
+            className="w-full max-w-lg rounded-3xl bg-surface border border-amber-500/40 p-6 md:p-8 shadow-[0_0_50px_rgba(245,158,11,0.2)] relative overflow-hidden animate-in zoom-in-95 duration-300"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Background glowing accents */}
+            <div className="absolute -top-16 -right-16 w-36 h-36 bg-amber-500/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-16 -left-16 w-36 h-36 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+            {/* Header Icon & Security Badge */}
+            <div className="flex items-center justify-between mb-6 relative z-10">
+              <div className="w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
+                <span className="material-symbols-outlined text-3xl">shield_lock</span>
+              </div>
+              <span className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] font-headline font-bold uppercase tracking-widest flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                Restricted Access
+              </span>
+            </div>
+
+            {/* Modal Title & Content */}
+            <div className="space-y-3 mb-6 relative z-10">
+              <h3 className="text-xl md:text-2xl font-headline font-bold text-white">
+                Proprietary & Confidential Platform
+              </h3>
+              <p className="text-xs md:text-sm text-on-surface-variant font-medium leading-relaxed">
+                <span className="text-amber-300 font-bold">{confidentialModal.project.title}</span> is an exclusive internal business management application built specifically for <span className="text-white font-bold">{confidentialModal.project.clientName}</span>.
+              </p>
+              
+              <div className="p-4 rounded-xl bg-amber-950/30 border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed flex items-start gap-3">
+                <span className="material-symbols-outlined text-amber-400 text-lg shrink-0 mt-0.5">lock_person</span>
+                <p>
+                  {confidentialModal.project.confidentialNotice || "Live access and production credentials are encrypted and restricted solely to verified on-site engineers and executive leadership."}
+                </p>
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 relative z-10">
+              <Link
+                href="/consultation"
+                onClick={() => setConfidentialModal({ open: false })}
+                className="w-full sm:flex-1 py-3.5 px-4 bg-gradient-to-r from-primary to-primary-container text-on-primary rounded-xl font-headline font-bold text-xs uppercase tracking-widest text-center shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+              >
+                <span>Request Custom App Demo</span>
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
+              <button
+                onClick={() => setConfidentialModal({ open: false })}
+                className="w-full sm:w-auto py-3.5 px-6 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-on-surface font-headline font-bold text-xs uppercase tracking-widest transition-all"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
