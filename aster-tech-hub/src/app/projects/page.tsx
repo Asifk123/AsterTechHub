@@ -77,9 +77,30 @@ const projects = [
     icon: "security",
     color: "red",
   },
+  {
+    id: 10,
+    title: "Green Build Business App",
+    category: "App Development",
+    description: "Enterprise mobile management application for Green Build Construction to streamline site operations, real-time material tracking, and workforce oversight.",
+    icon: "apartment",
+    color: "secondary",
+  },
 ];
 
 const completedProjects = [
+  {
+    id: "green-build-app",
+    title: "Green Build Construction Management App",
+    clientName: "ER. Manjunath & ER. Buden Sab",
+    location: "Davangere",
+    services: ["Mobile App Development", "Business ERP", "Realtime Sync"],
+    description: "A tailored enterprise mobile business management application designed for Green Build Interiors & Construction. Built for on-site engineers and contractors to track daily project milestones, inventory dispatch, budget expenditure, and client progress reports on the go.",
+    testimonial: "Aster Tech Hub delivered a robust mobile platform that transformed how we coordinate construction sites across Davangere. From resource management to instant milestone updates, it keeps our entire business in sync.",
+    url: "https://www.greenbuild.space",
+    logoUrl: "/greenbuild-app-logo.png",
+    techStack: ["Flutter / React Native", "Supabase", "Node.js", "Tailwind"],
+    bgImage: "/construction-bg.png",
+  },
   {
     id: "green-build",
     title: "Green Build Interiors and Construction",
