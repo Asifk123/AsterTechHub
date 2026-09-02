@@ -31,7 +31,16 @@ export default function FinancesTab() {
   const fetchInvoices = async () => {
     try {
       const data = await projectService.getInvoices();
-      setInvoices(data || []);
+      const mapped = (data || []).map((inv: any) => ({
+        ...inv,
+        invoiceNumber: inv.invoice_number || (inv.id && inv.id.length < 15 ? inv.id : `INV-${inv.id.slice(0, 6).toUpperCase()}`),
+        client: inv.client_name || inv.client || 'Valued Client',
+        amount: parseFloat(inv.amount) || 0,
+        date: inv.due_date 
+          ? new Date(inv.due_date).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })
+          : new Date(inv.created_at || Date.now()).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }),
+      }));
+      setInvoices(mapped);
     } catch (error) {
       console.error("Error fetching invoices:", error);
     } finally {
@@ -55,20 +64,24 @@ export default function FinancesTab() {
         return;
       }
 
-      const invoice = {
-        id: `INV-${Math.floor(1000 + Math.random() * 9000)}`,
-        client: newInvoice.client,
+      const invNumber = `INV-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      const invoicePayload = {
+        invoice_number: invNumber,
+        client_name: newInvoice.client,
         amount: numericAmount,
-        status: newInvoice.status,
-        date: new Date().toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }),
+        status: newInvoice.status || 'Pending',
+        due_date: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       };
 
-      await projectService.createInvoice(invoice);
+      await projectService.createInvoice(invoicePayload);
       setShowModal(false);
       setNewInvoice({ client: "", amount: "", status: "Pending" });
       showNotify("Invoice generated successfully!");
-    } catch (error) {
-      showNotify("Failed to create invoice.", 'error');
+      fetchInvoices();
+    } catch (error: any) {
+      console.error("Create invoice error:", error);
+      showNotify(error?.message || "Failed to create invoice.", 'error');
     }
   };
 
@@ -87,6 +100,7 @@ export default function FinancesTab() {
     try {
       await projectService.updateInvoiceStatus(id, nextStatus);
       showNotify(`Invoice status updated to ${nextStatus}`);
+      fetchInvoices();
     } catch (error) {
       showNotify("Failed to update status.", 'error');
     }
@@ -191,7 +205,7 @@ export default function FinancesTab() {
             <tbody className="divide-y divide-white/5">
               {invoices.map((invoice) => (
                 <tr key={invoice.id} className="hover:bg-white/5 transition-colors">
-                  <td className="py-4 font-headline text-sm font-bold text-primary">{invoice.id}</td>
+                  <td className="py-4 font-headline text-sm font-bold text-primary">{invoice.invoiceNumber || invoice.id}</td>
                   <td className="py-4 text-sm font-medium">{invoice.client}</td>
                   <td className="py-4 text-sm font-bold">₹{(invoice.amount || 0).toLocaleString()}</td>
                   <td className="py-4">
@@ -236,7 +250,7 @@ export default function FinancesTab() {
           {invoices.map((invoice) => (
             <div key={invoice.id} className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-3">
               <div className="flex justify-between items-center">
-                <span className="font-headline font-black text-primary text-sm">{invoice.id}</span>
+                <span className="font-headline font-black text-primary text-sm">{invoice.invoiceNumber || invoice.id}</span>
                 <button 
                   onClick={() => handleStatusChange(invoice.id, invoice.status)}
                   className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest border ${
