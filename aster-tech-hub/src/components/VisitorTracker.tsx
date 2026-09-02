@@ -17,9 +17,8 @@ export default function VisitorTracker() {
         
         await supabase.from('stats').insert([
           {
-            event_type: 'page_view',
-            path: pathname,
-            user_id: session?.user?.id || null
+            page: pathname,
+            visitor_id: session?.user?.id || null
           }
         ]);
       } catch (err) {
