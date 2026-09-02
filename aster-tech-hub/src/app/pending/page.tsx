@@ -19,14 +19,25 @@ export default function PendingVerification() {
       // 1. Initial check just in case they were approved while the page was loading
       const { data: profile } = await supabase
         .from('profiles')
-        .select('status')
+        .select('role, status')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
       if (!active) return;
 
+      const redirectToRole = (roleStr: string) => {
+        const role = (roleStr || '').toUpperCase();
+        if (['ADMIN', 'CEO', 'MD', 'OD'].includes(role)) {
+          router.push('/admin');
+        } else if (role === 'TEAM') {
+          router.push('/team');
+        } else {
+          router.push('/dashboard');
+        }
+      };
+
       if (profile?.status === 'approved') {
-        router.push('/dashboard');
+        redirectToRole(profile.role);
         return;
       }
 
@@ -43,7 +54,7 @@ export default function PendingVerification() {
           },
           (payload: any) => {
             if (payload.new?.status === 'approved') {
-              router.push('/dashboard');
+              redirectToRole(payload.new?.role);
             }
           }
         )
